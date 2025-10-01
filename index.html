@@ -9,7 +9,24 @@
     nav { background-color: navy; color: white; display: flex; justify-content: center; padding: 1rem; }
     nav a { color: white; margin: 0 1rem; text-decoration: none; font-weight: bold; }
     nav a:hover { color: lightgray; }
-    main { max-width: 800px; margin: 2rem auto; padding: 1rem; }
+    main { max-width: 800px; margin: 2rem auto; padding: 1rem; text-align: center; }
+
+    .btn-container { margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 1rem 2rem;
+      background-color: navy;
+      color: white;
+      border: none;
+      border-radius: .5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #003366;
+    }
   </style>
 </head>
 <body>
@@ -24,6 +41,13 @@
   <main>
     <h1>Fitness-schema 💪</h1>
     <p>Klik op jouw naam voor jouw gepersonaliseerde schema</p>
+
+    <div class="btn-container">
+      <a href="mitchell.html" class="btn">Mitchell</a>
+      <a href="kas.html" class="btn">Kas</a>
+      <a href="eloy.html" class="btn">Eloy</a>
+      <a href="jari.html" class="btn">Jari</a>
+    </div>
   </main>
 </body>
 </html>
