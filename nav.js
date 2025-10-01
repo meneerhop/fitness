@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Voor GitHub Pages: parts[0]=<repo>, parts[1]=<persoon> (mitchell/kas/eloy/jari)
   const repo = parts[0] || "";
   const person = parts[1] || "";
-  const rootPrefix = repo ? `/${repo}` : "";
+    const rootPrefix = "";
 
-  fetch(`${rootPrefix}/nav.html`)
+  fetch(`/nav.html`)
     .then(r => r.text())
     .then(html => {
       const holder = document.getElementById("navbar");
