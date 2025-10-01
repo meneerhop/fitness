@@ -1,0 +1,23 @@
+[[redirects]]
+from = "/mitchell"
+to = "/mitchell/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/kas"
+to = "/kas/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/eloy"
+to = "/eloy/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/jari"
+to = "/jari/"
+status = 301
+force = true
