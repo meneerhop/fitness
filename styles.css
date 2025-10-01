@@ -1,18 +1,15 @@
 /* ---------- Global theme: Open Sans + light gray / white ---------- */
-
-/* Google Font import (werkt op GitHub Pages) */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 
-/* Kleuren (pas gerust aan) */
 :root{
-  --bg: #f5f6f8;        /* lichtgrijs achtergrond */
-  --surface: #ffffff;   /* witte kaarten/nav */
-  --border: #e6e8eb;    /* subtiele randen */
-  --text: #111214;      /* primaire tekst */
-  --muted: #5b616e;     /* secundaire tekst */
-  --link: #111214;      /* links donkergrijs/zwart */
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --border: #e6e8eb;
+  --text: #111214;
+  --muted: #5b616e;
+  --link: #111214;
   --link-hover: #3a3f47;
-  --btn: #2f3136;       /* donkere knop voor contrast */
+  --btn: #2f3136;
   --btn-text: #ffffff;
 }
 
@@ -25,10 +22,10 @@ html,body{
   line-height:1.6;
 }
 
-/* Navigatiebalk (licht) */
+/* Navigatie */
 nav{
-  background:var(--surface) !important;
-  color:var(--text) !important;
+  background:var(--surface);
+  color:var(--text);
   border-bottom:1px solid var(--border);
   display:flex;
   gap:1rem;
@@ -36,20 +33,16 @@ nav{
   padding:1rem;
 }
 nav a{
-  color:var(--link) !important;
+  color:var(--link);
   text-decoration:none;
   font-weight:700;
 }
-nav a:hover{ color:var(--link-hover) !important; }
+nav a:hover{ color:var(--link-hover); }
 
 /* Content */
-main{ 
-  max-width:900px; 
-  margin:2rem auto; 
-  padding:0 1rem; 
-}
+main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
 
-/* Cards/containers */
+/* Cards */
 .card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -57,7 +50,7 @@ main{
   padding:1.25rem;
 }
 
-/* Buttons (zoals op de homepage) */
+/* Buttons */
 .btn{
   display:inline-block;
   padding:1rem 1.25rem;
@@ -72,27 +65,17 @@ main{
 .btn:hover{ filter:brightness(1.05); }
 .btn:active{ transform:translateY(1px); }
 
-/* Afbeeldingen en formulieren netjes */
-img{ max-width:100%; height:auto; display:block; }
 label{ display:block; margin-top:.75rem; color:var(--muted); }
-input, select, button{
-  font-family:inherit;
-  font-size:1rem;
-}
+input, select, button{ font-family:inherit; font-size:1rem; }
 input, select{
-  width:100%;
-  padding:.5rem .6rem;
-  border:1px solid var(--border);
-  border-radius:.5rem;
-  background:#fff;
-  color:var(--text);
+  width:100%; padding:.5rem .6rem;
+  border:1px solid var(--border); border-radius:.5rem;
+  background:#fff; color:var(--text);
 }
 button{
   padding:.75rem 1rem;
-  border:0;
-  border-radius:.5rem;
-  background:var(--btn);
-  color:var(--btn-text);
+  border:0; border-radius:.5rem;
+  background:var(--btn); color:var(--btn-text);
   cursor:pointer;
 }
 button:hover{ filter:brightness(1.05); }
