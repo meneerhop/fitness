@@ -78,15 +78,20 @@ main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
   .nav-links.show{ display:flex; }
 }
 
-/* Buttons (zoals op home) */
+/* ---------------- Buttons (geüpdatet) ---------------- */
 .btn{
-  display:inline-block; padding:1rem 1.25rem;
-  background:var(--btn); color:var(--btn-text) !important;
-  border-radius:.75rem; text-decoration:none; font-weight:700;
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  display:inline-block;
+  padding:1rem 1.25rem;
+  background:#e0e2e6;           /* iets donkerder grijs dan de pagina-achtergrond */
+  color:#111214 !important;     /* donkere tekst */
+  border:1px solid #c2c4c7;     /* dun, net donkerder randje */
+  border-radius:1.25rem;        /* rondere hoeken */
+  text-decoration:none;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
   transition:transform .05s ease, filter .2s ease;
 }
-.btn:hover{ filter:brightness(1.05); }
+.btn:hover{ filter:brightness(0.97); }
 .btn:active{ transform:translateY(1px); }
 
 label{ display:block; margin-top:.75rem; color:var(--muted); }
