@@ -9,8 +9,6 @@
   --muted: #5b616e;
   --link: #111214;
   --link-hover: #3a3f47;
-  --btn: #2f3136;
-  --btn-text: #ffffff;
 }
 
 html,body{
@@ -78,21 +76,25 @@ main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
   .nav-links.show{ display:flex; }
 }
 
-/* ---------------- Buttons (geüpdatet) ---------------- */
+/* ---------------- Buttons (lichtgrijs stijl) ---------------- */
 .btn{
   display:inline-block;
   padding:1rem 1.25rem;
-  background:#e0e2e6;           /* iets donkerder grijs dan de pagina-achtergrond */
+  background:#e0e2e6;           /* iets donkerder grijs dan de bg */
   color:#111214 !important;     /* donkere tekst */
-  border:1px solid #c2c4c7;     /* dun, net donkerder randje */
+  border:1px solid #c2c4c7;     /* subtiel donkerder randje */
   border-radius:1.25rem;        /* rondere hoeken */
   text-decoration:none;
   font-weight:700;
   box-shadow:0 2px 6px rgba(0,0,0,.05);
-  transition:transform .05s ease, filter .2s ease;
+  transition:transform .05s ease, filter .2s ease, background .2s ease;
 }
-.btn:hover{ filter:brightness(0.97); }
-.btn:active{ transform:translateY(1px); }
+.btn:hover{
+  background:#d5d7db;           /* hover iets donkerder grijs */
+}
+.btn:active{
+  transform:translateY(1px);
+}
 
 label{ display:block; margin-top:.75rem; color:var(--muted); }
 input, select, button{ font-family:inherit; font-size:1rem; }
@@ -102,7 +104,10 @@ input, select{
   background:#fff; color:var(--text);
 }
 button{
-  padding:.75rem 1rem; border:0; border-radius:.5rem;
-  background:var(--btn); color:var(--btn-text); cursor:pointer;
+  padding:.75rem 1rem; border:1px solid #c2c4c7; border-radius:1rem;
+  background:#e0e2e6; color:#111214; cursor:pointer;
+  font-weight:600;
+  transition:background .2s ease, transform .05s ease;
 }
-button:hover{ filter:brightness(1.05); }
+button:hover{ background:#d5d7db; }
+button:active{ transform:translateY(1px); }
