@@ -7,11 +7,22 @@
   <!-- laad centrale styles -->
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* alleen de layout voor de homepagina */
+    /* layout voor de homepagina */
     html, body { height:100%; margin:0; }
     .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; }
     .content { width:100%; max-width:720px; text-align:center; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; justify-items:center; }
+    .grid { 
+      display:grid; 
+      grid-template-columns:1fr 1fr; 
+      gap:1rem; 
+      justify-items:center; 
+      width:100%;
+    }
+    /* mobiel: 1 kolom */
+    @media (max-width: 600px){
+      .grid { grid-template-columns:1fr; }
+      .btn { max-width:100%; width:100%; }
+    }
   </style>
 </head>
 <body>
