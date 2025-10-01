@@ -5,35 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mitchell - Caloriebehoefte</title>
   <style>
-    :root { --navy:#001f7f; } body{font-family:Arial,sans-serif;margin:0;}
-    nav{background:var(--navy);color:#fff;display:flex;gap:1rem;justify-content:center;padding:1rem;}
-    nav a{color:#fff;text-decoration:none;font-weight:700;} nav a:hover{color:#dbe4ff;}
-    main{max-width:900px;margin:2rem auto;padding:0 1rem;}
-    .card{border:1px solid #ddd;border-radius:.5rem;padding:1rem;}
-    label{display:block;margin-top:.75rem} input,select{width:100%;padding:.5rem;margin-top:.25rem}
-    button{margin-top:1rem;padding:.75rem 1rem;background:var(--navy);color:#fff;border:none;border-radius:.5rem;cursor:pointer}
-    #res{margin-top:1rem;font-weight:700;color:darkgreen}
+    :root { --navy:#001f7f; }
+    body { font-family: Arial, sans-serif; margin: 0; }
+    nav { background: var(--navy); color:#fff; display:flex; gap:1rem; justify-content:center; padding:1rem; }
+    nav a { color:#fff; text-decoration:none; font-weight:700; }
+    nav a:hover { color:#dbe4ff; }
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .card { border: 1px solid #ddd; border-radius: .5rem; padding: 1rem; }
+    label { display:block; margin-top: .75rem; }
+    input, select { width:100%; padding:.5rem; margin-top:.25rem; }
+    button { margin-top:1rem; padding:.75rem 1rem; background:var(--navy); color:#fff; border:none; border-radius:.5rem; cursor:pointer; }
+    button:hover { filter:brightness(1.05); }
+    #res { margin-top:1rem; font-weight:700; color:darkgreen; }
   </style>
 </head>
 <body>
   <nav>
-    <a href="/mitchell/">Home</a>
-    <a href="/mitchell/schema.html">Schema</a>
-    <a href="/mitchell/voeding.html">Voeding</a>
-    <a href="/mitchell/calorie.html">Caloriebehoefte</a>
-    <a href="/mitchell/agenda.html">Agenda</a>
+    <a href="./">Home</a>
+    <a href="schema.html">Schema</a>
+    <a href="voeding.html">Voeding</a>
+    <a href="calorie.html">Caloriebehoefte</a>
+    <a href="agenda.html">Agenda</a>
   </nav>
   <main>
     <h1>Caloriebehoefte – Mitchell</h1>
     <div class="card">
-      <label>Geslacht:<select id="g"><option value="man">Man</option><option value="vrouw">Vrouw</option></select></label>
-      <label>Leeftijd:<input type="number" id="lft"></label>
-      <label>Gewicht (kg):<input type="number" id="kg"></label>
-      <label>Lengte (cm):<input type="number" id="cm"></label>
+      <label>Geslacht:
+        <select id="g"><option value="man">Man</option><option value="vrouw">Vrouw</option></select>
+      </label>
+      <label>Leeftijd: <input type="number" id="lft" placeholder="25"></label>
+      <label>Gewicht (kg): <input type="number" id="kg" placeholder="70"></label>
+      <label>Lengte (cm): <input type="number" id="cm" placeholder="175"></label>
       <label>Activiteit:
         <select id="act">
-          <option value="1.2">Weinig</option><option value="1.375">Licht (1–3x/wk)</option>
-          <option value="1.55">Gemiddeld (3–5x/wk)</option><option value="1.725">Zwaar (6–7x/wk)</option><option value="1.9">Zeer zwaar</option>
+          <option value="1.2">Weinig</option>
+          <option value="1.375">Licht (1–3x/wk)</option>
+          <option value="1.55">Gemiddeld (3–5x/wk)</option>
+          <option value="1.725">Zwaar (6–7x/wk)</option>
+          <option value="1.9">Zeer zwaar</option>
         </select>
       </label>
       <button onclick="calc()">Bereken</button>
@@ -42,12 +51,12 @@
   </main>
   <script>
     function calc(){
-      const g=document.getElementById('g').value,
-            l=parseInt(document.getElementById('lft').value),
-            w=parseFloat(document.getElementById('kg').value),
-            h=parseFloat(document.getElementById('cm').value),
-            a=parseFloat(document.getElementById('act').value);
-      if([l,w,h].some(Number.isNaN)){document.getElementById('res').innerText='Vul alle velden in.';return;}
+      const g=document.getElementById('g').value;
+      const l=parseInt(document.getElementById('lft').value);
+      const w=parseFloat(document.getElementById('kg').value);
+      const h=parseFloat(document.getElementById('cm').value);
+      const a=parseFloat(document.getElementById('act').value);
+      if([l,w,h].some(Number.isNaN)){ document.getElementById('res').innerText='Vul alle velden in.'; return; }
       let bmr=10*w+6.25*h-5*l+(g==='man'?5:-161);
       document.getElementById('res').innerText='Onderhoud: '+Math.round(bmr*a)+' kcal/dag.';
     }
