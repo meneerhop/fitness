@@ -1,0 +1,18 @@
+.btn{
+  display:inline-block;
+  padding:1rem 1.25rem;
+  background:#e0e2e6;           /* iets donkerder grijs dan de achtergrond #f5f6f8 */
+  color:#111214 !important;     /* donkere tekst */
+  border:1px solid #c2c4c7;     /* dun randje, net wat donkerder */
+  border-radius:1.25rem;        /* afgeronde hoeken */
+  text-decoration:none;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,.05); /* subtiele schaduw */
+  transition:transform .05s ease, filter .2s ease;
+}
+.btn:hover{
+  filter:brightness(0.97);      /* iets donkerder bij hover */
+}
+.btn:active{
+  transform:translateY(1px);
+}
