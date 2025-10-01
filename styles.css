@@ -14,94 +14,14 @@
 }
 
 html,body{
-  margin:0;
-  padding:0;
-  background:var(--bg);
-  color:var(--text);
+  margin:0; padding:0;
+  background:var(--bg); color:var(--text);
   font-family:"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
   line-height:1.6;
 }
 
-/* Navigatie */
-nav{
-  background:var(--surface);
-  color:var(--text);
-  border-bottom:1px solid var(--border);
-  display:flex;
-  gap:1rem;
-  justify-content:center;
-  padding:1rem;
-}
-nav a{
-  color:var(--link);
-  text-decoration:none;
-  font-weight:700;
-}
-nav a:hover{ color:var(--link-hover); }
-
-/* -------- Responsive Navbar -------- */
-.navbar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: .5rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-brand {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--text);
-}
-
-.nav-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-links a {
-  color: var(--link);
-  text-decoration: none;
-  font-weight: 600;
-}
-.nav-links a:hover { color: var(--link-hover); }
-
-.nav-toggle {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: none; /* standaard verborgen */
-}
-
-/* ---- Mobiel weergave ---- */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background: var(--surface);
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    padding: 1rem;
-    border: 1px solid var(--border);
-    border-radius: .5rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,.1);
-  }
-  .nav-links.show {
-    display: flex;
-  }
-  .nav-toggle {
-    display: block;
-    color: var(--text);
-  }
-}
-
-/* Content */
 main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
 
-/* Cards */
 .card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -109,15 +29,60 @@ main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
   padding:1.25rem;
 }
 
-/* Buttons */
+/* ---------------- Responsive Navbar ---------------- */
+.navbar{
+  position: relative;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: .625rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand{ font-weight:700; font-size:1.1rem; color:var(--text); }
+
+.nav-links{
+  display:flex; gap:1rem;
+}
+.nav-links a{
+  color:var(--link); text-decoration:none; font-weight:600;
+}
+.nav-links a:hover{ color:var(--link-hover); }
+
+.nav-toggle{
+  display:none; /* desktop: verborgen */
+  width:40px; height:40px;
+  border:none; background:transparent; cursor:pointer;
+  border-radius:.5rem;
+}
+.nav-toggle:focus{ outline:2px solid var(--border); }
+
+.nav-toggle .bar{
+  display:block; width:22px; height:2px; margin:5px auto;
+  background:var(--text); border-radius:1px;
+}
+
+/* Mobiel */
+@media (max-width: 768px){
+  .nav-toggle{ display:block; }
+  .nav-links{
+    display:none;
+    position:absolute; right:10px; top:60px;
+    flex-direction:column; gap:.75rem;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:.5rem;
+    padding: .75rem 1rem;
+    box-shadow:0 6px 14px rgba(0,0,0,.1);
+    z-index: 1000;
+    min-width: 180px;
+  }
+  .nav-links.show{ display:flex; }
+}
+
+/* Buttons (zoals op home) */
 .btn{
-  display:inline-block;
-  padding:1rem 1.25rem;
-  background:var(--btn);
-  color:var(--btn-text) !important;
-  border-radius:.75rem;
-  text-decoration:none;
-  font-weight:700;
+  display:inline-block; padding:1rem 1.25rem;
+  background:var(--btn); color:var(--btn-text) !important;
+  border-radius:.75rem; text-decoration:none; font-weight:700;
   box-shadow:0 4px 12px rgba(0,0,0,.06);
   transition:transform .05s ease, filter .2s ease;
 }
@@ -132,9 +97,7 @@ input, select{
   background:#fff; color:var(--text);
 }
 button{
-  padding:.75rem 1rem;
-  border:0; border-radius:.5rem;
-  background:var(--btn); color:var(--btn-text);
-  cursor:pointer;
+  padding:.75rem 1rem; border:0; border-radius:.5rem;
+  background:var(--btn); color:var(--btn-text); cursor:pointer;
 }
 button:hover{ filter:brightness(1.05); }
