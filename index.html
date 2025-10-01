@@ -5,48 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness met Moffel - Home</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; }
-    nav { background-color: navy; color: white; display: flex; justify-content: center; padding: 1rem; }
-    nav a { color: white; margin: 0 1rem; text-decoration: none; font-weight: bold; }
-    nav a:hover { color: lightgray; }
-    main { max-width: 800px; margin: 2rem auto; padding: 1rem; text-align: center; }
-
-    .btn-container { margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    :root { --navy: #001f7f; }
+    html, body { height: 100%; margin: 0; }
+    body { font-family: Arial, sans-serif; }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1rem;
+    }
+    .content {
+      width: 100%;
+      max-width: 720px;
+      text-align: center;
+    }
+    h1 { margin: 0 0 .5rem; }
+    p  { margin: 0 0 1.5rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* 2 bij 2 */
+      gap: 1rem 1rem;
+      justify-items: center;
+    }
     .btn {
-      padding: 1rem 2rem;
-      background-color: navy;
-      color: white;
-      border: none;
-      border-radius: .5rem;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
+      display: inline-block;
+      width: 100%;
+      max-width: 220px;
+      padding: 1rem 1.25rem;
+      background: var(--navy);
+      color: #fff;
       text-decoration: none;
-      transition: background 0.3s;
+      font-weight: 700;
+      border-radius: .75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      transition: transform .05s ease, filter .2s ease;
     }
-    .btn:hover {
-      background-color: #003366;
-    }
+    .btn:active { transform: translateY(1px); }
+    .btn:hover { filter: brightness(1.05); }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="schema.html">Schema</a>
-    <a href="voeding.html">Voeding</a>
-    <a href="calorie.html">Caloriebehoefte</a>
-    <a href="agenda.html">Agenda</a>
-  </nav>
+  <main class="wrap">
+    <div class="content">
+      <h1>Fitness-schema 💪</h1>
+      <p>Klik op jouw naam voor jouw gepersonaliseerde omgeving.</p>
 
-  <main>
-    <h1>Fitness-schema 💪</h1>
-    <p>Klik op jouw naam voor jouw gepersonaliseerde schema</p>
-
-    <div class="btn-container">
-      <a href="mitchell.html" class="btn">Mitchell</a>
-      <a href="kas.html" class="btn">Kas</a>
-      <a href="eloy.html" class="btn">Eloy</a>
-      <a href="jari.html" class="btn">Jari</a>
+      <div class="grid">
+        <a class="btn" href="mitchell/">Mitchell</a>
+        <a class="btn" href="kas/">Kas</a>
+        <a class="btn" href="eloy/">Eloy</a>
+        <a class="btn" href="jari/">Jari</a>
+      </div>
     </div>
   </main>
 </body>
