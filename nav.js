@@ -1,46 +1,29 @@
-// Laadt de centrale nav en herschrijft links per map (/mitchell/, /kas/, ...)
-// Werkt op GitHub Pages (pad: /<repo>/<persoon>/...).
+// nav.js — werkt met custom domain (www.moffel.fit) en submappen (bijv. /mitchell/)
+// Laadt nav.html vanaf de root en regelt alleen de hamburger; geen pad-herschrijving nodig.
 document.addEventListener("DOMContentLoaded", function () {
-  const clean = window.location.pathname.replace(/\/+$/, "");
-  const parts = clean.split("/").filter(Boolean);
-  // Voor GitHub Pages: parts[0]=<repo>, parts[1]=<persoon> (mitchell/kas/eloy/jari)
-  const repo = parts[0] || "";
-  const person = parts[1] || "";
-    const rootPrefix = "";
-
-  fetch(`/nav.html`)
-    .then(r => r.text())
+  fetch("/nav.html")
+    .then(r => {
+      if (!r.ok) throw new Error("Kon /nav.html niet laden (" + r.status + ")");
+      return r.text();
+    })
     .then(html => {
       const holder = document.getElementById("navbar");
       if (!holder) return;
       holder.innerHTML = html;
 
-      // Links herschrijven naar /<repo>/<person>/... (Home -> map-root)
-      if (person) {
-        holder.querySelectorAll(".nav-links a[href]").forEach(a => {
-          const href = a.getAttribute("href");
-          if (!href) return;
-          if (/^(https?:)?\/\//i.test(href)) return; // externe link: laat met rust
-
-          if (href === "./") {
-            a.setAttribute("href", `${rootPrefix}/${person}/`);
-          } else if (!href.startsWith("/")) {
-            a.setAttribute("href", `${rootPrefix}/${person}/${href}`);
-          }
-        });
-      } else {
-        // Op root (bijv. /<repo>/index) verwijzen links naar root
-        holder.querySelectorAll(".nav-links a[href]").forEach(a => {
-          const href = a.getAttribute("href");
-          if (!href || /^(https?:)?\/\//i.test(href)) return;
-          if (href === "./") a.setAttribute("href", `${rootPrefix}/`);
-          else if (!href.startsWith("/")) a.setAttribute("href", `${rootPrefix}/${href}`);
-        });
+      // Als nav.html een link heeft met href="./", laat de browser die zelf
+      // relatief oplossen (dat is per map al correct). Eventueel kun je onderstaand
+      // blokje gebruiken om './' op de root-pagina expliciet naar '/' te zetten.
+      const isRootFile = window.location.pathname.replace(/\/+$/, "") === "" ||
+                         window.location.pathname.replace(/\/+$/, "") === "/";
+      if (isRootFile) {
+        holder.querySelectorAll('a[href="./"]').forEach(a => a.setAttribute("href", "/"));
       }
 
-      // Hamburger toggle
+      // Hamburger/menu toggle
       const toggle = holder.querySelector(".nav-toggle");
       const links = holder.querySelector(".nav-links");
+      if (!toggle || !links) return;
 
       function closeMenu() {
         links.classList.remove("show");
@@ -59,13 +42,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.target.closest("a")) closeMenu();
       });
       document.addEventListener("click", e => {
-        const inside = e.target.closest(".navbar");
-        if (!inside) closeMenu();
+        if (!e.target.closest(".navbar")) closeMenu();
       });
-      // Sluit bij Escape
       document.addEventListener("keydown", e => {
         if (e.key === "Escape") closeMenu();
       });
     })
-    .catch(console.error);
+    .catch(err => {
+      console.error(err);
+    });
 });
