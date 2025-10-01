@@ -39,6 +39,65 @@ nav a{
 }
 nav a:hover{ color:var(--link-hover); }
 
+/* -------- Responsive Navbar -------- */
+.navbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: .5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav-links a:hover { color: var(--link-hover); }
+
+.nav-toggle {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none; /* standaard verborgen */
+}
+
+/* ---- Mobiel weergave ---- */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: var(--surface);
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: .5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+  }
+  .nav-links.show {
+    display: flex;
+  }
+  .nav-toggle {
+    display: block;
+    color: var(--text);
+  }
+}
+
 /* Content */
 main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
 
