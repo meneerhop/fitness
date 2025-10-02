@@ -32,13 +32,7 @@ html, body{
   margin: 0 auto;
   padding: 0 20px;
 }
-main {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
-  font-size: 1.05rem;
-  line-height: 1.7;
-}
+main{ padding: 28px 0 56px; }
 
 /* Headings */
 h1,h2,h3{ line-height: 1.25; margin: 0 0 14px; }
@@ -100,12 +94,7 @@ p{ margin: 0 0 12px; color: var(--muted); }
 .nav-brand{
   font-weight: 700;
   letter-spacing: -.01em;
-  color: var(--accent);
-  text-decoration: none;
-  display:flex;
-  align-items:center;
 }
-.nav-brand svg{ fill: currentColor; display:block; }
 .nav-links{ display: flex; gap: 14px; align-items: center; }
 .nav-links a{
   text-decoration: none;

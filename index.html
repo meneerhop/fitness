@@ -1,15 +1,42 @@
 <!doctype html>
-<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fitness - Home</title><link rel="stylesheet" href="styles.css"></head>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitness - Home</title>
+  <!-- laad centrale styles -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* layout voor de homepagina */
+    html, body { height:100%; margin:0; }
+    .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; }
+    .content { width:100%; max-width:720px; text-align:center; }
+    .grid { 
+      display:grid; 
+      grid-template-columns:1fr 1fr; 
+      gap:1rem; 
+      justify-items:center; 
+      width:100%;
+    }
+    /* mobiel: 1 kolom, knoppen max 70% breed */
+    @media (max-width: 600px){
+      .grid { grid-template-columns:1fr; }
+      .btn { width:100%; max-width:70%; }
+    }
+  </style>
+</head>
 <body>
-<main class="wrap"><div class="content">
-<h1>Fitness-schema 💪</h1>
-<p>Klik op jouw naam voor jouw gepersonaliseerde omgeving.</p>
-<div class="grid">
-<a class="btn" href="mitchell/">Mitchell</a>
-<a class="btn" href="kas/">Kas</a>
-<a class="btn" href="eloy/">Eloy</a>
-<a class="btn" href="jari/">Jari</a>
-</div>
-</div></main>
-</body></html>
+  <main class="wrap">
+    <div class="content">
+      <h1>Fitness-schema 💪</h1>
+      <p>Klik op jouw naam voor jouw gepersonaliseerde omgeving.</p>
+      <div class="grid">
+        <a class="btn" href="mitchell/">Mitchell</a>
+        <a class="btn" href="kas/">Kas</a>
+        <a class="btn" href="eloy/">Eloy</a>
+        <a class="btn" href="jari/">Jari</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
