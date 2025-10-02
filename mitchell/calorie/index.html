@@ -3,50 +3,271 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Mitchell - Caloriebehoefte</title>
+  <title>Caloriebehoefte</title>
   <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* ——— Alleen voor deze pagina ——— */
+    .form { display: grid; gap: 14px; }
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+    .field label {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 560px){
+      .row { grid-template-columns: 1fr; }
+    }
+    .input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .input input, .input select {
+      border: 0; outline: 0; width: 100%;
+      background: transparent; font: inherit; color: inherit;
+    }
+    .unit, .help {
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .actions { display:flex; gap:10px; flex-wrap: wrap; }
+    .result h3 { margin-top: 12px; }
+    .kpi {
+      display:grid; gap:10px; margin-top: 8px;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+    @media (max-width: 520px){ .kpi { grid-template-columns: 1fr; } }
+    .kpi .card { padding:12px 14px; }
+    .kpi .val { font-weight:700; font-size:1.15rem; letter-spacing:-.01em; }
+    .muted { color: var(--muted); }
+  </style>
 </head>
 <body>
   <div id="navbar"></div>
-  <main>
-    <h1>Caloriebehoefte – Mitchell</h1>
+
+  <main class="container">
+    <h1>Caloriebehoefte</h1>
+
     <div class="card">
-      <label>Geslacht:
-        <select id="g">
-          <option value="man">Man</option>
-          <option value="vrouw">Vrouw</option>
-        </select>
-      </label>
-      <label>Leeftijd:<input type="number" id="lft" placeholder="25"></label>
-      <label>Gewicht (kg):<input type="number" id="kg" placeholder="70"></label>
-      <label>Lengte (cm):<input type="number" id="cm" placeholder="175"></label>
-      <label>Activiteit:
-        <select id="act">
-          <option value="1.2">Weinig</option>
-          <option value="1.375">Licht (1–3x/wk)</option>
-          <option value="1.55">Gemiddeld (3–5x/wk)</option>
-          <option value="1.725">Zwaar (6–7x/wk)</option>
-          <option value="1.9">Zeer zwaar</option>
-        </select>
-      </label>
-      <button onclick="calc()">Bereken</button>
-      <div id="res"></div>
+      <form class="form" id="calcForm" onsubmit="event.preventDefault(); calc();">
+        <div class="row">
+          <div class="field">
+            <label for="g">Geslacht</label>
+            <div class="input">
+              <select id="g">
+                <option value="man">Man</option>
+                <option value="vrouw">Vrouw</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="age">Leeftijd</label>
+            <div class="input">
+              <input type="number" id="age" inputmode="numeric" placeholder="25" min="10" max="100">
+              <span class="unit">jaar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="weight">Gewicht</label>
+            <div class="input">
+              <input type="number" id="weight" inputmode="decimal" placeholder="70" min="25" max="300" step="0.1">
+              <span class="unit">kg</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="height">Lengte</label>
+            <div class="input">
+              <input type="number" id="height" inputmode="decimal" placeholder="175" min="100" max="250" step="0.5">
+              <span class="unit">cm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="act">Activiteit</label>
+            <div class="input">
+              <select id="act">
+                <option value="1.2">Weinig (kantoor/geen sport)</option>
+                <option value="1.375">Licht (1–3×/week)</option>
+                <option value="1.55" selected>Gemiddeld (3–5×/week)</option>
+                <option value="1.725">Zwaar (6–7×/week)</option>
+                <option value="1.9">Zeer zwaar (fysiek werk + sport)</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="goal">Doel</label>
+            <div class="input">
+              <select id="goal">
+                <option value="maintain|0">Onderhoud (0%)</option>
+                <option value="cut|10">Cutten (-10%)</option>
+                <option value="cut|20">Cutten (-20%)</option>
+                <option value="bulk|10">Bulken (+10%)</option>
+                <option value="bulk|15">Bulken (+15%)</option>
+              </select>
+            </div>
+            <div class="help">Kies een caloriedoel t.o.v. je TDEE.</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="prot">Eiwit</label>
+            <div class="input">
+              <input type="number" id="prot" inputmode="decimal" step="0.1" value="1.8" min="1.2" max="3">
+              <span class="unit">g per kg</span>
+            </div>
+            <div class="help">Aanbevolen 1.6–2.2 g/kg.</div>
+          </div>
+          <div class="field">
+            <label for="fatpct">Vet</label>
+            <div class="input">
+              <input type="number" id="fatpct" inputmode="decimal" step="1" value="30" min="20" max="40">
+              <span class="unit">% van kcal</span>
+            </div>
+            <div class="help">Tussen 20–40% is gebruikelijk. Rest = koolhydraten.</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="submit">Bereken</button>
+          <button class="btn" type="button" onclick="saveForm()">Opslaan</button>
+          <span class="muted" id="saveStatus" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <div class="result" id="result" style="margin-top:16px; display:none;">
+        <div class="kpi">
+          <div class="card">
+            <div class="muted">BMR (rust)</div>
+            <div class="val" id="outBMR">—</div>
+          </div>
+          <div class="card">
+            <div class="muted">TDEE (onderhoud)</div>
+            <div class="val" id="outTDEE">—</div>
+          </div>
+          <div class="card">
+            <div class="muted">Doel kcal/dag</div>
+            <div class="val" id="outGoal">—</div>
+          </div>
+          <div class="card">
+            <div class="muted">Eiwit / Vet / Koolh.</div>
+            <div class="val" id="outMacros">—</div>
+          </div>
+        </div>
+
+        <h3>Details</h3>
+        <p id="outDetails" class="muted"></p>
+      </div>
     </div>
   </main>
+
   <script>
+    // --- Helpers ---
+    const nl = n => Math.round(n).toLocaleString('nl-NL');
+    const round5 = n => Math.round(n / 5) * 5;
+    const keyPrefix = (() => {
+      const parts = location.pathname.split('/').filter(Boolean);
+      return parts.length ? parts[0] : 'global';
+    })();
+    const storageKey = name => `calorie_${keyPrefix}_${name}`;
+
     function calc(){
-      const g=document.getElementById('g').value,
-            l=parseInt(document.getElementById('lft').value),
-            w=parseFloat(document.getElementById('kg').value),
-            h=parseFloat(document.getElementById('cm').value),
-            a=parseFloat(document.getElementById('act').value);
-      if([l,w,h].some(Number.isNaN)){
-        document.getElementById('res').innerText='Vul alle velden in.'; return;
+      const g = document.getElementById('g').value;
+      const age = +document.getElementById('age').value;
+      const w = +document.getElementById('weight').value;
+      const h = +document.getElementById('height').value;
+      const act = +document.getElementById('act').value;
+      const [goalType, goalPctStr] = document.getElementById('goal').value.split('|');
+      const protPerKg = +document.getElementById('prot').value;
+      const fatPct = +document.getElementById('fatpct').value;
+
+      if([age,w,h].some(v => !v)){
+        alert('Vul leeftijd, gewicht en lengte in.'); return;
       }
-      const bmr = 10*w + 6.25*h - 5*l + (g==='man'?5:-161);
-      document.getElementById('res').innerText = 'Onderhoud: ' + Math.round(bmr*a) + ' kcal/dag.';
+
+      // Mifflin-St Jeor
+      const bmr = 10*w + 6.25*h - 5*age + (g === 'man' ? 5 : -161);
+      const tdee = bmr * act;
+
+      // doel
+      const pct = +goalPctStr || 0;
+      let goalKcal = tdee;
+      if (goalType === 'cut') goalKcal = tdee * (1 - pct/100);
+      if (goalType === 'bulk') goalKcal = tdee * (1 + pct/100);
+
+      // macro's
+      const protein = protPerKg * w;                 // gram
+      const kcalProtein = protein * 4;
+      const kcalFat = goalKcal * (fatPct/100);
+      const fat = kcalFat / 9;                       // gram
+      const carbs = Math.max(0, (goalKcal - kcalProtein - kcalFat) / 4); // gram
+
+      // output
+      document.getElementById('outBMR').textContent  = nl(round5(bmr)) + ' kcal';
+      document.getElementById('outTDEE').textContent = nl(round5(tdee)) + ' kcal';
+      document.getElementById('outGoal').textContent = nl(round5(goalKcal)) + ' kcal';
+      document.getElementById('outMacros').textContent =
+        `${Math.round(protein)}g / ${Math.round(fat)}g / ${Math.round(carbs)}g`;
+
+      document.getElementById('outDetails').textContent =
+        `Gebaseerd op ${g}, ${age} jaar, ${w} kg, ${h} cm en activiteitsfactor ${act}. ` +
+        `Eiwit ${protPerKg} g/kg, vet ${fatPct}% van kcal.`;
+      document.getElementById('result').style.display = '';
+      
+      // laatste resultaat bewaren
+      localStorage.setItem(storageKey('last_result'), JSON.stringify({
+        ts: Date.now(), bmr, tdee, goalKcal, protein, fat, carbs
+      }));
     }
+
+    function saveForm(){
+      const data = {
+        g: document.getElementById('g').value,
+        age: document.getElementById('age').value,
+        weight: document.getElementById('weight').value,
+        height: document.getElementById('height').value,
+        act: document.getElementById('act').value,
+        goal: document.getElementById('goal').value,
+        prot: document.getElementById('prot').value,
+        fatpct: document.getElementById('fatpct').value
+      };
+      localStorage.setItem(storageKey('form'), JSON.stringify(data));
+      const el = document.getElementById('saveStatus');
+      el.textContent = 'Opgeslagen ✓';
+      setTimeout(()=> el.textContent = '', 2000);
+    }
+
+    function loadForm(){
+      const raw = localStorage.getItem(storageKey('form'));
+      if(!raw) return;
+      try{
+        const d = JSON.parse(raw);
+        for (const [id,val] of Object.entries(d)){
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        }
+      }catch{}
+    }
+
+    loadForm();
   </script>
+
   <script src="/nav.js"></script>
 </body>
 </html>
