@@ -1,55 +1,52 @@
-// nav.js — laadt nav.html en herschrijft links voor clean URLs per persoon
+// Laadt nav.html, herschrijft links naar de juiste persoonsmap en regelt hamburger
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("/nav.html")
-    .then(r => {
-      if (!r.ok) throw new Error("Kon nav.html niet laden (" + r.status + ")");
-      return r.text();
-    })
+  const clean = window.location.pathname.replace(/\/+$/, "");
+  const parts = clean.split("/").filter(Boolean);
+  // GitHub Pages: /<repo>/<persoon>/...
+  const repo = parts[0] || "";
+  const person = parts[1] || "";
+  const rootPrefix = repo ? `/${repo}` : "";
+
+  fetch(`${rootPrefix}/nav.html`)
+    .then(r => r.text())
     .then(html => {
       const holder = document.getElementById("navbar");
       if (!holder) return;
       holder.innerHTML = html;
 
-      const parts = window.location.pathname.split("/").filter(Boolean);
-      const person = parts.length ? parts[0] : "";
+      // Per-map rewrites
+      const scope = holder.querySelector(".nav-links");
+      if (!scope) return;
 
-      holder.querySelectorAll(".nav-links a[href]").forEach(a => {
+      const rewrite = (a) => {
         const href = a.getAttribute("href");
-        if (!href || /^(https?:)?\/\//i.test(href)) return;
-
-        if (href === "./") {
-          a.setAttribute("href", person ? `/${person}/` : "/");
-        } else if (href.endsWith(".html")) {
-          const base = href.replace(/\.html$/,"");
-          a.setAttribute("href", person ? `/${person}/${base}/` : `/${base}/`);
+        if (!href || /^(https?:)?\/\//i.test(href)) return; // extern laten staan
+        if (person) {
+          if (href === "./") a.href = `${rootPrefix}/${person}/`;
+          else if (!href.startsWith("/")) a.href = `${rootPrefix}/${person}/${href}`;
+        } else {
+          // root (repo)
+          if (href === "./") a.href = `${rootPrefix}/`;
+          else if (!href.startsWith("/")) a.href = `${rootPrefix}/${href}`;
         }
-      });
+      };
 
-      // Hamburger toggle
+      scope.querySelectorAll("a[href]").forEach(rewrite);
+
+      // Hamburger
       const toggle = holder.querySelector(".nav-toggle");
-      const links = holder.querySelector(".nav-links");
-      if (!toggle || !links) return;
+      const links  = holder.querySelector(".nav-links");
+      if (toggle && links) {
+        const open  = () => { links.classList.add("show");  toggle.setAttribute("aria-expanded","true"); };
+        const close = () => { links.classList.remove("show"); toggle.setAttribute("aria-expanded","false"); };
 
-      function closeMenu() {
-        links.classList.remove("show");
-        toggle.setAttribute("aria-expanded", "false");
+        toggle.addEventListener("click", () =>
+          links.classList.contains("show") ? close() : open()
+        );
+        links.addEventListener("click", e => { if (e.target.closest("a")) close(); });
+        document.addEventListener("click", e => { if (!e.target.closest(".navbar")) close(); });
+        document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
       }
-      function openMenu() {
-        links.classList.add("show");
-        toggle.setAttribute("aria-expanded", "true");
-      }
-      toggle.addEventListener("click", () => {
-        links.classList.contains("show") ? closeMenu() : openMenu();
-      });
-      links.addEventListener("click", e => {
-        if (e.target.closest("a")) closeMenu();
-      });
-      document.addEventListener("click", e => {
-        if (!e.target.closest(".navbar")) closeMenu();
-      });
-      document.addEventListener("keydown", e => {
-        if (e.key === "Escape") closeMenu();
-      });
     })
     .catch(console.error);
 });
