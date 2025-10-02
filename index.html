@@ -80,9 +80,56 @@
     .dropdown-menu a:hover {
       background: var(--bg);
     }
+
+    /* nav brand als huis-icoon */
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+    }
+    .nav-brand svg {
+      width: 20px;
+      height: 20px;
+      fill: #0f172a;
+    }
+
+    .navbar {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 1rem;
+      background: var(--surface, #fff);
+      border-bottom:1px solid var(--border, #e5e7eb);
+    }
+    .nav-links a {
+      padding:0.75rem 1rem;
+      text-decoration:none;
+      color: var(--text, #0f172a);
+      font-weight:500;
+    }
+    .nav-links a:hover {
+      opacity:.8;
+    }
   </style>
 </head>
 <body>
+  <!-- navigatiebalk -->
+  <nav class="navbar">
+    <a class="nav-brand" href="/">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5H10v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5zM12 5.2l7 5.8V19h-3v-5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5H5v-8z"/>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="./">Home</a>
+      <a href="schema.html">Schema</a>
+      <a href="voeding.html">Voeding</a>
+      <a href="calorie.html">Caloriebehoefte</a>
+      <a href="agenda.html">Agenda</a>
+    </div>
+  </nav>
+
   <main class="wrap">
     <div class="content">
       <h1>Moffel.fit 💪</h1>
