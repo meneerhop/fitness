@@ -1,13 +1,14 @@
 // nav.js — laadt nav.html en herschrijft links voor clean URLs per persoon
 document.addEventListener("DOMContentLoaded", function () {
+  const holder = document.getElementById("navbar");
+  if (!holder) return; // niks doen op pagina's zonder navbar (bv. startpagina)
+
   fetch("/nav.html")
     .then(r => {
       if (!r.ok) throw new Error("Kon nav.html niet laden (" + r.status + ")");
       return r.text();
     })
     .then(html => {
-      const holder = document.getElementById("navbar");
-      if (!holder) return;
       holder.innerHTML = html;
 
       const parts = window.location.pathname.split("/").filter(Boolean);
@@ -30,23 +31,31 @@ document.addEventListener("DOMContentLoaded", function () {
       const links = holder.querySelector(".nav-links");
       if (!toggle || !links) return;
 
+      const setExpanded = v => toggle.setAttribute("aria-expanded", v ? "true" : "false");
+
       function closeMenu() {
         links.classList.remove("show");
-        toggle.setAttribute("aria-expanded", "false");
+        setExpanded(false);
+        document.body.classList.remove("no-scroll");
       }
       function openMenu() {
         links.classList.add("show");
-        toggle.setAttribute("aria-expanded", "true");
+        setExpanded(true);
+        document.body.classList.add("no-scroll");
       }
+
       toggle.addEventListener("click", () => {
         links.classList.contains("show") ? closeMenu() : openMenu();
       });
+
       links.addEventListener("click", e => {
         if (e.target.closest("a")) closeMenu();
       });
+
       document.addEventListener("click", e => {
         if (!e.target.closest(".navbar")) closeMenu();
       });
+
       document.addEventListener("keydown", e => {
         if (e.key === "Escape") closeMenu();
       });
