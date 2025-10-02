@@ -1,7 +1,7 @@
 // nav.js — laadt nav.html en herschrijft links voor clean URLs per persoon
 document.addEventListener("DOMContentLoaded", function () {
   const holder = document.getElementById("navbar");
-  if (!holder) return; // niks doen op pagina's zonder navbar (bv. startpagina)
+  if (!holder) return;
 
   fetch("/nav.html")
     .then(r => {
