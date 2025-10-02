@@ -1,113 +1,152 @@
-/* ---------- Global theme: Open Sans + light gray / white ---------- */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+/* =========================
+   Clean UI for moffel.fit
+   - minimal, crisp, responsive
+   ========================= */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root{
-  --bg: #f5f6f8;
+  --bg: #f6f7f9;
   --surface: #ffffff;
-  --border: #e6e8eb;
-  --text: #111214;
-  --muted: #5b616e;
-  --link: #111214;
-  --link-hover: #3a3f47;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #111827;
+  --accent-2: #374151;
+  --shadow: 0 8px 20px rgba(15, 23, 42, .06);
+  --radius: 14px;
 }
 
-html,body{
+*{ box-sizing: border-box; }
+
+html, body{
   margin:0; padding:0;
-  background:var(--bg); color:var(--text);
-  font-family:"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-  line-height:1.6;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  line-height: 1.55;
 }
 
-main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
+/* Layout helpers */
+.container{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+main{ padding: 28px 0 56px; }
 
+/* Headings */
+h1,h2,h3{ line-height: 1.25; margin: 0 0 14px; }
+h1{ font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; letter-spacing: -.015em; }
+h2{ font-size: clamp(20px, 2.0vw, 26px); font-weight: 700; }
+h3{ font-size: clamp(18px, 1.6vw, 22px); font-weight: 600; }
+
+p{ margin: 0 0 12px; color: var(--muted); }
+
+/* Cards */
 .card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:.75rem;
-  padding:1.25rem;
-}
-
-/* ---------------- Responsive Navbar ---------------- */
-.navbar{
-  position: relative;
   background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: .625rem 1rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-brand{ font-weight:700; font-size:1.1rem; color:var(--text); }
-
-.nav-links{
-  display:flex; gap:1rem;
-}
-.nav-links a{
-  color:var(--link); text-decoration:none; font-weight:600;
-}
-.nav-links a:hover{ color:var(--link-hover); }
-
-.nav-toggle{
-  display:none; /* desktop: verborgen */
-  width:40px; height:40px;
-  border:none; background:transparent; cursor:pointer;
-  border-radius:.5rem;
-}
-.nav-toggle:focus{ outline:2px solid var(--border); }
-
-.nav-toggle .bar{
-  display:block; width:22px; height:2px; margin:5px auto;
-  background:var(--text); border-radius:1px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
 }
 
-/* Mobiel */
-@media (max-width: 768px){
-  .nav-toggle{ display:block; }
-  .nav-links{
-    display:none;
-    position:absolute; right:10px; top:60px;
-    flex-direction:column; gap:.75rem;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:.5rem;
-    padding: .75rem 1rem;
-    box-shadow:0 6px 14px rgba(0,0,0,.1);
-    z-index: 1000;
-    min-width: 180px;
-  }
-  .nav-links.show{ display:flex; }
-}
-
-/* ---------------- Buttons (lichtgrijs stijl) ---------------- */
+/* Buttons (generic) */
 .btn{
   display:inline-block;
-  padding:1rem 1.25rem;
-  background:#e0e2e6;           /* iets donkerder grijs dan de bg */
-  color:#111214 !important;     /* donkere tekst */
-  border:1px solid #c2c4c7;     /* subtiel donkerder randje */
-  border-radius:1.25rem;        /* rondere hoeken */
-  text-decoration:none;
-  font-weight:700;
-  box-shadow:0 2px 6px rgba(0,0,0,.05);
-  transition:transform .05s ease, filter .2s ease, background .2s ease;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f3f4f6;
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .04s ease, background .2s ease;
 }
-.btn:hover{
-  background:#d5d7db;           /* hover iets donkerder grijs */
+.btn:hover{ background:#e5e7eb; }
+.btn:active{ transform: translateY(1px); }
+
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
 }
-.btn:active{
-  transform:translateY(1px);
+@media (max-width: 520px){
+  .grid{ grid-template-columns: 1fr; }
 }
 
-label{ display:block; margin-top:.75rem; color:var(--muted); }
-input, select, button{ font-family:inherit; font-size:1rem; }
-input, select{
-  width:100%; padding:.5rem .6rem;
-  border:1px solid var(--border); border-radius:.5rem;
-  background:#fff; color:var(--text);
+/* =========================
+   Navigation
+   ========================= */
+.navbar{
+  position: sticky; top: 0; z-index: 40;
+  backdrop-filter: saturate(180%) blur(6px);
+  background: rgba(255,255,255, .86);
+  border-bottom: 1px solid var(--border);
 }
-button{
-  padding:.75rem 1rem; border:1px solid #c2c4c7; border-radius:1rem;
-  background:#e0e2e6; color:#111214; cursor:pointer;
-  font-weight:600;
-  transition:background .2s ease, transform .05s ease;
+.nav-inner{
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
-button:hover{ background:#d5d7db; }
-button:active{ transform:translateY(1px); }
+.nav-brand{
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.nav-links{ display: flex; gap: 14px; align-items: center; }
+.nav-links a{
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background .15s ease, color .15s ease;
+}
+.nav-links a:hover{ background:#f3f4f6; color: var(--accent-2); }
+
+/* Hamburger */
+.nav-toggle{
+  display: none;
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  align-items: center; justify-content: center;
+}
+.nav-toggle .bar{
+  display:block; width:18px; height:2px; background: var(--accent);
+  position: relative;
+}
+.nav-toggle .bar::before,
+.nav-toggle .bar::after{
+  content:""; position:absolute; left:0; width:100%; height:2px; background: var(--accent);
+  transform-origin: left center;
+}
+.nav-toggle .bar::before{ top:-6px; }
+.nav-toggle .bar::after{ top:6px; }
+
+/* Mobile nav */
+@media (max-width: 880px){
+  .nav-toggle{ display:flex; }
+  .nav-links{
+    position: absolute; left: 0; right: 0; top: 56px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: none;
+    padding: 10px 16px;
+    gap: 8px;
+    flex-direction: column;
+  }
+  .nav-links.show{ display: flex; }
+}
+
+/* Page specific helpers */
+.wrap{ display: grid; place-items: start center; padding-top: 14px; }
+.content{ width:100%; max-width: 780px; }
+.m-0{ margin: 0!important; }
+.mt-8{ margin-top: 8px!important; }
+.mt-16{ margin-top: 16px!important; }
+.mt-24{ margin-top: 24px!important; }
