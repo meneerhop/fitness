@@ -3,40 +3,119 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitness - Home</title>
-  <!-- laad centrale styles -->
+  <title>Moffel.fit - Home</title>
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Favicons & app icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="assets/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="assets/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="manifest" href="assets/icons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="assets/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
   <style>
-    /* layout voor de homepagina */
     html, body { height:100%; margin:0; }
     .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; }
     .content { width:100%; max-width:720px; text-align:center; }
-    .grid { 
-      display:grid; 
-      grid-template-columns:1fr 1fr; 
-      gap:1rem; 
-      justify-items:center; 
-      width:100%;
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
     }
-    /* mobiel: 1 kolom, knoppen max 70% breed */
-    @media (max-width: 600px){
-      .grid { grid-template-columns:1fr; }
-      .btn { width:100%; max-width:70%; }
+
+    #dropdownButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    #dropdownButton::after {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #0f172a; /* donkergrijs pijltje */
+      transition: transform 0.2s ease;
+    }
+
+    #dropdownButton.active::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 200px;
+      z-index: 10;
+      text-align: left;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .dropdown-menu a:hover {
+      background: var(--bg);
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <div class="content">
-      <h1>Fitness-schema 💪</h1>
-      <p>Klik op jouw naam voor jouw gepersonaliseerde omgeving.</p>
-      <div class="grid">
-        <a class="btn" href="mitchell/">Mitchell</a>
-        <a class="btn" href="kas/">Kas</a>
-        <a class="btn" href="eloy/">Eloy</a>
-        <a class="btn" href="jari/">Jari</a>
+      <h1>Moffel.fit 💪</h1>
+      <p>Selecteer jouw profiel om naar je persoonlijke omgeving te gaan.</p>
+
+      <div class="dropdown">
+        <button class="btn" id="dropdownButton">Selecteer jouw profiel</button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="eloy/">Eloy</a>
+          <a href="jari/">Jari</a>
+          <a href="kas/">Kas</a>
+          <a href="mitchell/">Mitchell</a>
+        </div>
       </div>
     </div>
   </main>
+
+  <script>
+    const button = document.getElementById('dropdownButton');
+    const menu = document.getElementById('dropdownMenu');
+
+    button.addEventListener('click', () => {
+      const open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+      button.classList.toggle('active', !open);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!button.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+        button.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 </html>
