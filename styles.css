@@ -100,7 +100,12 @@ p{ margin: 0 0 12px; color: var(--muted); }
 .nav-brand{
   font-weight: 700;
   letter-spacing: -.01em;
+  color: var(--accent);
+  text-decoration: none;
+  display:flex;
+  align-items:center;
 }
+.nav-brand svg{ fill: currentColor; display:block; }
 .nav-links{ display: flex; gap: 14px; align-items: center; }
 .nav-links a{
   text-decoration: none;

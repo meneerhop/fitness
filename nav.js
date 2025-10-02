@@ -1,8 +1,8 @@
-// Laadt nav.html, herschrijft links naar de juiste persoonsmap en regelt hamburger
+// Load nav, rewrite links per person folder, and handle hamburger
 document.addEventListener("DOMContentLoaded", function () {
   const clean = window.location.pathname.replace(/\/+$/, "");
   const parts = clean.split("/").filter(Boolean);
-  // GitHub Pages: /<repo>/<persoon>/...
+  // GitHub Pages layout: /<repo>/<person>/...
   const repo = parts[0] || "";
   const person = parts[1] || "";
   const rootPrefix = repo ? `/${repo}` : "";
@@ -14,35 +14,26 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!holder) return;
       holder.innerHTML = html;
 
-      // Per-map rewrites
-      const scope = holder.querySelector(".nav-links");
-      if (!scope) return;
+      const links = holder.querySelector(".nav-links");
+      if (!links) return;
 
-      const rewrite = (a) => {
+      links.querySelectorAll("a[href]").forEach(a => {
         const href = a.getAttribute("href");
-        if (!href || /^(https?:)?\/\//i.test(href)) return; // extern laten staan
+        if (!href || /^(https?:)?\/\//i.test(href)) return; // external
         if (person) {
           if (href === "./") a.href = `${rootPrefix}/${person}/`;
           else if (!href.startsWith("/")) a.href = `${rootPrefix}/${person}/${href}`;
         } else {
-          // root (repo)
           if (href === "./") a.href = `${rootPrefix}/`;
           else if (!href.startsWith("/")) a.href = `${rootPrefix}/${href}`;
         }
-      };
+      });
 
-      scope.querySelectorAll("a[href]").forEach(rewrite);
-
-      // Hamburger
       const toggle = holder.querySelector(".nav-toggle");
-      const links  = holder.querySelector(".nav-links");
       if (toggle && links) {
         const open  = () => { links.classList.add("show");  toggle.setAttribute("aria-expanded","true"); };
         const close = () => { links.classList.remove("show"); toggle.setAttribute("aria-expanded","false"); };
-
-        toggle.addEventListener("click", () =>
-          links.classList.contains("show") ? close() : open()
-        );
+        toggle.addEventListener("click", () => links.classList.contains("show") ? close() : open());
         links.addEventListener("click", e => { if (e.target.closest("a")) close(); });
         document.addEventListener("click", e => { if (!e.target.closest(".navbar")) close(); });
         document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
