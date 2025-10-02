@@ -1,5 +1,4 @@
-// nav.js — werkt met custom domain (www.moffel.fit) en submappen (bijv. /mitchell/)
-// Laadt nav.html vanaf de root en regelt alleen de hamburger; geen pad-herschrijving nodig.
+// nav.js — custom domain friendly + per-persoon links
 document.addEventListener("DOMContentLoaded", function () {
   fetch("/nav.html")
     .then(r => {
@@ -11,14 +10,19 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!holder) return;
       holder.innerHTML = html;
 
-      // Als nav.html een link heeft met href="./", laat de browser die zelf
-      // relatief oplossen (dat is per map al correct). Eventueel kun je onderstaand
-      // blokje gebruiken om './' op de root-pagina expliciet naar '/' te zetten.
-      const isRootFile = window.location.pathname.replace(/\/+$/, "") === "" ||
-                         window.location.pathname.replace(/\/+$/, "") === "/";
-      if (isRootFile) {
-        holder.querySelectorAll('a[href="./"]').forEach(a => a.setAttribute("href", "/"));
-      }
+      // Bepaal persoon uit eerste padsegment: /mitchell/..., /kas/...
+      const parts = window.location.pathname.replace(/\/+$/,"").split("/").filter(Boolean);
+      const person = parts.length ? parts[0] : "";
+
+      holder.querySelectorAll(".nav-links a[href]").forEach(a => {
+        const href = a.getAttribute("href");
+        if (!href || /^(https?:)?\/\//i.test(href)) return; // externe link
+        if (href === "./") {
+          a.setAttribute("href", person ? `/${person}/` : `/`);
+        } else if (!href.startsWith("/")) {
+          a.setAttribute("href", person ? `/${person}/${href}` : `/${href}`);
+        }
+      });
 
       // Hamburger/menu toggle
       const toggle = holder.querySelector(".nav-toggle");
@@ -36,8 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
       toggle.addEventListener("click", () => {
         links.classList.contains("show") ? closeMenu() : openMenu();
       });
-
-      // Sluit menu bij klik op link of buiten het menu
       links.addEventListener("click", e => {
         if (e.target.closest("a")) closeMenu();
       });
@@ -48,7 +50,5 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.key === "Escape") closeMenu();
       });
     })
-    .catch(err => {
-      console.error(err);
-    });
+    .catch(console.error);
 });
