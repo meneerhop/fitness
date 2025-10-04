@@ -1,4 +1,6 @@
-/* ========================= Navigation ========================= */
+/* =========================
+   Navigation
+   ========================= */
 .navbar{
   position: sticky; top: 0; z-index: 40;
   backdrop-filter: saturate(180%) blur(6px);
@@ -13,33 +15,38 @@
   gap: 10px;
 }
 
-/* Links: iconen naast elkaar */
+/* Linkerzijde: huis + spotify */
 .nav-left{
   display: flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
 }
 
 .nav-brand{
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: var(--text);          /* zet currentColor voor SVG */
   padding: 0.75rem 1rem;
-  line-height: 0;              /* voorkomt baseline gap */
+  line-height: 0;
 }
 
 .nav-brand svg{
   width: 20px;
   height: 20px;
-  display: block;              /* geen lijn-hoogte artefacts */
-  fill: currentColor;          /* iconkleur == var(--text) */
+  display: block;
+  fill: var(--text);
 }
 
-/* Rechts: links */
-.nav-links{ display: flex; gap: 14px; align-items: center; }
+/* Spotify-link erft zelfde kleur als huisje */
+.nav-spotify{ color: var(--text); }
+
+/* Rechterzijde */
+.nav-links{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
 .nav-links a{
   text-decoration: none;
   color: var(--accent);
