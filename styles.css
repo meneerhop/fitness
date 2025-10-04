@@ -1,10 +1,87 @@
 /* =========================
+   Clean UI for moffel.fit
+   - minimal, crisp, responsive
+   ========================= */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root{
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #111827;
+  --accent-2: #374151;
+  --shadow: 0 8px 20px rgba(15, 23, 42, .06);
+  --radius: 14px;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin:0; padding:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  line-height: 1.55;
+}
+
+/* Layout helpers */
+.container{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+main{ padding: 28px 0 56px; }
+
+/* Headings */
+h1,h2,h3{ line-height: 1.25; margin: 0 0 14px; }
+h1{ font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; letter-spacing: -.015em; }
+h2{ font-size: clamp(20px, 2.0vw, 26px); font-weight: 700; }
+h3{ font-size: clamp(18px, 1.6vw, 22px); font-weight: 600; }
+
+p{ margin: 0 0 12px; color: var(--muted); }
+
+/* Cards */
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+}
+
+/* Buttons (generic) */
+.btn{
+  display:inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f3f4f6;
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .04s ease, background .2s ease;
+}
+.btn:hover{ background:#e5e7eb; }
+.btn:active{ transform: translateY(1px); }
+
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+}
+@media (max-width: 520px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+/* =========================
    Navigation
    ========================= */
 .navbar{
   position: sticky; top: 0; z-index: 40;
   backdrop-filter: saturate(180%) blur(6px);
-  background: rgba(255,255,255,.86);
+  background: rgba(255,255,255, .86);
   border-bottom: 1px solid var(--border);
 }
 .nav-inner{
@@ -15,38 +92,36 @@
   gap: 10px;
 }
 
-/* Linkerzijde: huis + spotify */
+/* Linkerkant: iconen naast elkaar */
 .nav-left{
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 6px; /* afstand tussen huis en spotify */
 }
 
+/* Icon-knoppen */
 .nav-brand{
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   padding: 0.75rem 1rem;
-  line-height: 0;
+  line-height: 0; /* geen baseline-ruimte */
 }
 
+/* Zorg dat beide SVG's exact gelijk zijn en dezelfde kleur hebben */
 .nav-brand svg{
   width: 20px;
   height: 20px;
-  display: block;
-  fill: var(--text);
+  display: block;           /* voorkomt baseline-cropping */
+  fill: var(--text);        /* kleur gelijk */
 }
 
-/* Spotify-link erft zelfde kleur als huisje */
+/* Specifiek voor spotify-link (erft dezelfde kleur en spacing) */
 .nav-spotify{ color: var(--text); }
 
-/* Rechterzijde */
-.nav-links{
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
+/* Rechterzijde: links */
+.nav-links{ display: flex; gap: 14px; align-items: center; }
 .nav-links a{
   text-decoration: none;
   color: var(--accent);
@@ -92,3 +167,11 @@
   }
   .nav-links.show{ display: flex; }
 }
+
+/* Page specific helpers */
+.wrap{ display: grid; place-items: start center; padding-top: 14px; }
+.content{ width:100%; max-width: 780px; }
+.m-0{ margin: 0!important; }
+.mt-8{ margin-top: 8px!important; }
+.mt-16{ margin-top: 16px!important; }
+.mt-24{ margin-top: 24px!important; }
