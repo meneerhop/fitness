@@ -117,9 +117,22 @@ p{ margin: 0 0 12px; color: var(--muted); }
   fill: var(--text);        /* kleur gelijk */
 }
 
-/* Specifiek voor spotify-link (erft dezelfde kleur en spacing) */
-.nav-spotify{ color: var(--text); }
+.nav-spotify{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  line-height: 0; /* geen baseline-ruimte */
+}
 
+/* Zorg dat beide SVG's exact gelijk zijn en dezelfde kleur hebben */
+.nav-spotify svg{
+  width: 20px;
+  height: 20px;
+  display: block;           /* voorkomt baseline-cropping */
+  fill: var(--text);        /* kleur gelijk */
+}
 /* Rechterzijde: links */
 .nav-links{ display: flex; gap: 14px; align-items: center; }
 .nav-links a{
