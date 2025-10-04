@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!r.ok) throw new Error("Kon nav.html niet laden (" + r.status + ")");
       return r.text();
     })
-    .then(html => {
+    .then(async html => {
       holder.innerHTML = html;
 
-      // Per-persoon links (mappen met index.html)
+      // ====== Per-persoon link rewriting ======
       const parts = window.location.pathname.split("/").filter(Boolean);
       const person = parts.length ? parts[0] : "";
 
@@ -27,21 +27,59 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // Hamburger
+      // ====== Hamburger toggle ======
       const toggle = holder.querySelector(".nav-toggle");
       const links  = holder.querySelector(".nav-links");
-      if (!toggle || !links) return;
+      if (toggle && links) {
+        const setExpanded = v => toggle.setAttribute("aria-expanded", v ? "true" : "false");
+        const closeMenu = () => { links.classList.remove("show"); setExpanded(false); document.body.classList.remove("no-scroll"); };
+        const openMenu  = () => { links.classList.add("show");    setExpanded(true);  document.body.classList.add("no-scroll"); };
 
-      const setExpanded = v => toggle.setAttribute("aria-expanded", v ? "true" : "false");
-      const closeMenu = () => { links.classList.remove("show"); setExpanded(false); document.body.classList.remove("no-scroll"); };
-      const openMenu  = () => { links.classList.add("show");    setExpanded(true);  document.body.classList.add("no-scroll"); };
+        toggle.addEventListener("click", () => {
+          links.classList.contains("show") ? closeMenu() : openMenu();
+        });
+        links.addEventListener("click", e => { if (e.target.closest("a")) closeMenu(); });
+        document.addEventListener("click", e => { if (!e.target.closest(".navbar")) closeMenu(); });
+        document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+      }
 
-      toggle.addEventListener("click", () => {
-        links.classList.contains("show") ? closeMenu() : openMenu();
-      });
-      links.addEventListener("click", e => { if (e.target.closest("a")) closeMenu(); });
-      document.addEventListener("click", e => { if (!e.target.closest(".navbar")) closeMenu(); });
-      document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+      // ====== Spotify icoon: laad inline SVG en maak kleur gelijk aan huisje ======
+      const spotHolder = holder.querySelector(".nav-spotify-icon");
+      const spotLink   = holder.querySelector(".nav-spotify");
+      if (spotHolder && spotLink) {
+        try {
+          const svgText = await fetch("/assets/icons/spotify-icon.svg").then(r => r.text());
+          // Parse en strip inline fills zodat CSS-kleur werkt
+          const doc = new DOMParser().parseFromString(svgText, "image/svg+xml");
+          const svg = doc.querySelector("svg");
+          if (svg) {
+            svg.setAttribute("width", "20");
+            svg.setAttribute("height", "20");
+            svg.setAttribute("aria-hidden","true");
+            // verwijder vaste fills op child elementen
+            svg.querySelectorAll("[fill]").forEach(el => el.removeAttribute("fill"));
+            // zet default op currentColor → erft van .nav-spotify (color: var(--text))
+            svg.style.fill = "currentColor";
+            spotHolder.replaceWith(svg);
+          }
+        } catch (e) {
+          console.warn("Kon spotify-icon.svg niet laden:", e);
+        }
+
+        // Deeplink: eerst app, dan web als fallback
+        const playlistId = "6yaHkYnJdPvZiowQv83aNs";
+        const webUrl = "https://open.spotify.com/playlist/6yaHkYnJdPvZiowQv83aNs?si=0fe6b51d3b1d483c";
+        const appUrl = `spotify:playlist:${playlistId}`;
+
+        spotLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          const start = Date.now();
+          window.location.href = appUrl;
+          setTimeout(() => {
+            if (Date.now() - start < 1400) window.location.href = webUrl;
+          }, 800);
+        }, { passive: false });
+      }
     })
     .catch(console.error);
 });
