@@ -7,89 +7,128 @@
   <link rel="stylesheet" href="styles.css">
 
   <!-- Favicons -->
-  <link rel="apple-touch-icon" sizes="57x57" href="assets/icons/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="assets/icons/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/android-icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
-  <link rel="manifest" href="assets/icons/manifest.json">
-  <meta name="theme-color" content="#ffffff">
 
-  <!-- Homepage-only styles -->
   <style>
-    html, body { height:100%; margin:0; }
-    body.home {
-      /* De GIF als echte body-achtergrond (valt nooit achter het canvas) */
-      background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat fixed;
-      position: relative;
-    }
-    /* Donkere overlay voor leesbaarheid */
-    body.home::before{
-      content:""; position:fixed; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.48));
-      pointer-events:none; z-index:0;
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden; /* voorkomt scrollbars op mobiel */
     }
 
-    .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; position:relative; z-index:1; }
-    .content { width:100%; max-width:720px; text-align:center; }
-    .content h1 { color:#fff; text-shadow:0 2px 16px rgba(0,0,0,.35); }
-    .content p  { color:rgba(255,255,255,.95); text-shadow:0 1px 12px rgba(0,0,0,.35); }
+    body.home {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* fullscreen GIF */
+    .background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat;
+      z-index: -2;
+    }
+
+    /* donkere overlay voor leesbaarheid */
+    .background::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6));
+      z-index: 1;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 720px;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #fff;
+      text-shadow: 0 2px 16px rgba(0,0,0,.35);
+      font-size: clamp(28px, 5vw, 42px);
+      margin-bottom: .5rem;
+    }
+
+    p {
+      color: rgba(255,255,255,.9);
+      text-shadow: 0 1px 12px rgba(0,0,0,.35);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
 
     /* Dropdown */
     .dropdown { position: relative; display: inline-block; }
-    #dropdownButton{
-      display:flex; align-items:center; justify-content:center; gap:.5rem;
-      background: transparent; color:#fff;
-      border:1.25px solid rgba(255,255,255,.95);
+    #dropdownButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      background: transparent;
+      color: #fff;
+      border: 1.25px solid rgba(255,255,255,.9);
       border-radius: 999px;
-      padding:10px 14px; font-weight:600;
+      padding: 10px 14px;
+      font-weight: 600;
       backdrop-filter: saturate(150%) blur(2px);
+      transition: background .2s ease;
     }
-    #dropdownButton:hover{ background: rgba(255,255,255,.08); }
-    #dropdownButton::after{
-      content:""; display:inline-block; width:0; height:0;
-      border-left:6px solid transparent; border-right:6px solid transparent;
-      border-top:6px solid #fff; transition: transform .2s ease;
+    #dropdownButton:hover { background: rgba(255,255,255,.1); }
+    #dropdownButton::after {
+      content: "";
+      display: inline-block;
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #fff;
+      transition: transform .2s ease;
     }
-    #dropdownButton.active::after{ transform: rotate(180deg); }
+    #dropdownButton.active::after { transform: rotate(180deg); }
 
-    .dropdown-menu{
-      display:none; position:absolute; top:110%; left:0; z-index:10;
-      background: rgba(0,0,0,.65);
-      border:1px solid rgba(255,255,255,.25);
-      border-radius: 14px; box-shadow: 0 8px 20px rgba(0,0,0,.35);
-      min-width:220px; text-align:left; overflow:hidden;
-      backdrop-filter: blur(2px);
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 110%; left: 0; right: 0;
+      background: rgba(0,0,0,.7);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.35);
+      text-align: left;
+      overflow: hidden;
+      backdrop-filter: blur(3px);
     }
-    .dropdown-menu a{
-      display:block; padding:.8rem 1rem; text-decoration:none;
-      color:#fff; font-weight:600;
+    .dropdown-menu a {
+      display: block;
+      padding: .8rem 1rem;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
     }
-    .dropdown-menu a:hover{ background: rgba(255,255,255,.12); }
+    .dropdown-menu a:hover { background: rgba(255,255,255,.12); }
   </style>
 </head>
 <body class="home">
-  <main class="wrap">
-    <div class="content">
-      <h1>Moffel.fit</h1>
-      <p>Selecteer jouw profiel om naar je persoonlijke omgeving te gaan.</p>
+  <div class="background" aria-hidden="true"></div>
 
-      <div class="dropdown">
-        <button class="btn" id="dropdownButton" type="button">Selecteer jouw profiel</button>
-        <div class="dropdown-menu" id="dropdownMenu" role="menu">
-          <a href="eloy/">Eloy</a>
-          <a href="jari/">Jari</a>
-          <a href="kas/">Kas</a>
-          <a href="mitchell/">Mitchell</a>
-        </div>
+  <main class="wrap">
+    <h1>Moffel.fit</h1>
+    <p>Selecteer jouw profiel om naar je persoonlijke omgeving te gaan.</p>
+
+    <div class="dropdown">
+      <button id="dropdownButton" type="button">Selecteer jouw profiel</button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="eloy/">Eloy</a>
+        <a href="jari/">Jari</a>
+        <a href="kas/">Kas</a>
+        <a href="mitchell/">Mitchell</a>
       </div>
     </div>
   </main>
