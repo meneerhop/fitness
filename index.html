@@ -10,56 +10,85 @@
   <style>
     html, body { height: 100%; margin: 0; }
 
-    /* OVERRIDE: maak de body op de homepage transparant */
-    body.home { 
+    /* HOMEPAGE */
+    body.home{
       background: transparent !important;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
+      position: relative;
+      min-height: 100vh;
     }
 
-    /* fullscreen GIF – nu vóór de body-achtergrond */
+    /* ==== Fullscreen achtergrond ==== */
     .background{
       position: fixed;
-      inset: 0;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh; /* fallback */
       background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat;
-      z-index: 0; /* WAS -2 */
+      z-index: 0;
     }
+    /* moderne viewport-units (werkt op iOS) */
+    @supports (height: 100dvh){
+      .background{ height: 100dvh; }
+    }
+    @supports (height: 100svh){
+      .background{ height: 100svh; }
+    }
+
+    /* donkere overlay */
     .background::after{
       content:"";
       position:absolute; inset:0;
       background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6));
-      z-index: 1;
+      z-index:1;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
+    /* Content */
     .wrap{
       position: relative;
-      z-index: 2;          /* content boven overlay */
+      z-index: 2;
       width: 100%;
       max-width: 720px;
       padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    @supports (min-height: 100dvh){
+      .wrap{ min-height: 100dvh; }
+    }
+    @supports (min-height: 100svh){
+      .wrap{ min-height: 100svh; }
     }
 
     h1{
-      color:#fff; text-shadow:0 2px 16px rgba(0,0,0,.35);
-      font-size: clamp(28px, 5vw, 42px); margin-bottom:.5rem;
+      color:#fff;
+      text-shadow:0 2px 16px rgba(0,0,0,.35);
+      font-size: clamp(28px, 5vw, 42px);
+      margin-bottom:.5rem;
     }
     p{
       color: rgba(255,255,255,.9);
       text-shadow: 0 1px 12px rgba(0,0,0,.35);
-      margin-bottom: 1.5rem; font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
     }
 
+    /* Dropdown */
     .dropdown { position: relative; display: inline-block; }
     #dropdownButton{
       display:flex; align-items:center; justify-content:center; gap:.5rem;
       background: transparent; color:#fff;
       border:1.25px solid rgba(255,255,255,.9);
-      border-radius:999px; padding:10px 14px; font-weight:600;
-      backdrop-filter:saturate(150%) blur(2px);
+      border-radius:999px; padding:10px 14px;
+      font-weight:600; backdrop-filter:saturate(150%) blur(2px);
       transition: background .2s ease;
     }
     #dropdownButton:hover{ background: rgba(255,255,255,.1); }
@@ -83,7 +112,9 @@
     .dropdown-menu a:hover{ background: rgba(255,255,255,.12); }
   </style>
 </head>
+
 <body class="home">
+  <!-- Achtergrond -->
   <div class="background" aria-hidden="true"></div>
 
   <main class="wrap">
