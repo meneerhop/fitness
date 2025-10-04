@@ -43,43 +43,40 @@ document.addEventListener("DOMContentLoaded", function () {
         document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
       }
 
-      // ====== Spotify icoon laden uit assets en stylen ======
+      // ====== Spotify icoon: laad inline SVG en maak kleur gelijk aan huisje ======
       const spotHolder = holder.querySelector(".nav-spotify-icon");
-      if (spotHolder) {
+      const spotLink   = holder.querySelector(".nav-spotify");
+      if (spotHolder && spotLink) {
         try {
           const svgText = await fetch("/assets/icons/spotify-icon.svg").then(r => r.text());
-          spotHolder.innerHTML = svgText;
-          const svg = spotHolder.querySelector("svg");
+          // Parse en strip inline fills zodat CSS-kleur werkt
+          const doc = new DOMParser().parseFromString(svgText, "image/svg+xml");
+          const svg = doc.querySelector("svg");
           if (svg) {
             svg.setAttribute("width", "20");
             svg.setAttribute("height", "20");
-            // Zelfde kleur als huisje (styles.css zet nav-brand svg { fill: var(--text); })
-            svg.style.fill = "var(--text)";
             svg.setAttribute("aria-hidden","true");
-            svg.removeAttribute("title");
+            // verwijder vaste fills op child elementen
+            svg.querySelectorAll("[fill]").forEach(el => el.removeAttribute("fill"));
+            // zet default op currentColor → erft van .nav-spotify (color: var(--text))
+            svg.style.fill = "currentColor";
+            spotHolder.replaceWith(svg);
           }
         } catch (e) {
           console.warn("Kon spotify-icon.svg niet laden:", e);
         }
-      }
 
-      // ====== Spotify deeplink (app eerst, web fallback) ======
-      const playlistId = "6yaHkYnJdPvZiowQv83aNs";
-      const webUrl = "https://open.spotify.com/playlist/6yaHkYnJdPvZiowQv83aNs?si=0fe6b51d3b1d483c";
-      const appUrl = `spotify:playlist:${playlistId}`;
+        // Deeplink: eerst app, dan web als fallback
+        const playlistId = "6yaHkYnJdPvZiowQv83aNs";
+        const webUrl = "https://open.spotify.com/playlist/6yaHkYnJdPvZiowQv83aNs?si=0fe6b51d3b1d483c";
+        const appUrl = `spotify:playlist:${playlistId}`;
 
-      const spotifyLink = holder.querySelector("#spotifyLink");
-      if (spotifyLink) {
-        spotifyLink.addEventListener("click", (e) => {
+        spotLink.addEventListener("click", (e) => {
           e.preventDefault();
           const start = Date.now();
-          // Probeer app
           window.location.href = appUrl;
-          // Fallback naar web als app niet opent
           setTimeout(() => {
-            if (Date.now() - start < 1400) {
-              window.location.href = webUrl;
-            }
+            if (Date.now() - start < 1400) window.location.href = webUrl;
           }, 800);
         }, { passive: false });
       }
