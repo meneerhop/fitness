@@ -6,7 +6,7 @@
   <title>Moffel.fit - Home</title>
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Favicons & app icons -->
+  <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="57x57" href="assets/icons/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/apple-icon-72x72.png">
@@ -21,32 +21,27 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
   <link rel="manifest" href="assets/icons/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="assets/icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
   <!-- Homepage-only styles -->
   <style>
     html, body { height:100%; margin:0; }
-    body.home { min-height:100%; }
-
-    /* fullscreen GIF background (homepage only) */
-    .home-bg{
-      position: fixed; inset: 0; z-index: -2;
-      background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat;
+    body.home {
+      /* De GIF als echte body-achtergrond (valt nooit achter het canvas) */
+      background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat fixed;
+      position: relative;
     }
-    /* subtle dark overlay for readability */
-    .home-bg::after{
-      content:""; position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.45));
+    /* Donkere overlay voor leesbaarheid */
+    body.home::before{
+      content:""; position:fixed; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.48));
+      pointer-events:none; z-index:0;
     }
 
-    .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; }
+    .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; position:relative; z-index:1; }
     .content { width:100%; max-width:720px; text-align:center; }
-
-    /* White text on top of the GIF */
-    .home h1 { color:#fff; text-shadow:0 2px 16px rgba(0,0,0,.35); }
-    .home p  { color:rgba(255,255,255,.95); text-shadow:0 1px 12px rgba(0,0,0,.35); }
+    .content h1 { color:#fff; text-shadow:0 2px 16px rgba(0,0,0,.35); }
+    .content p  { color:rgba(255,255,255,.95); text-shadow:0 1px 12px rgba(0,0,0,.35); }
 
     /* Dropdown */
     .dropdown { position: relative; display: inline-block; }
@@ -82,9 +77,6 @@
   </style>
 </head>
 <body class="home">
-  <!-- background (homepage only) -->
-  <div class="home-bg" aria-hidden="true"></div>
-
   <main class="wrap">
     <div class="content">
       <h1>Moffel.fit</h1>
@@ -119,7 +111,6 @@
       }
     });
 
-    // close on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         menu.style.display = 'none';
