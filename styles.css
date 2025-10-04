@@ -92,19 +92,33 @@ p{ margin: 0 0 12px; color: var(--muted); }
   gap: 10px;
 }
 
-/* Linkerzijde: alleen huis-icoon (geen tekst) */
+/* Linkerkant: iconen naast elkaar */
+.nav-left{
+  display: flex;
+  align-items: center;
+  gap: 6px; /* afstand tussen huis en spotify */
+}
+
+/* Icon-knoppen */
 .nav-brand{
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  padding: 0.75rem 1rem;     /* zelfde horizontale marge als links */
+  padding: 0.75rem 1rem;
+  line-height: 0; /* geen baseline-ruimte */
 }
+
+/* Zorg dat beide SVG's exact gelijk zijn en dezelfde kleur hebben */
 .nav-brand svg{
   width: 20px;
   height: 20px;
-  fill: var(--text);
+  display: block;           /* voorkomt baseline-cropping */
+  fill: var(--text);        /* kleur gelijk */
 }
+
+/* Specifiek voor spotify-link (erft dezelfde kleur en spacing) */
+.nav-spotify{ color: var(--text); }
 
 /* Rechterzijde: links */
 .nav-links{ display: flex; gap: 14px; align-items: center; }
