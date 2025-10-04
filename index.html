@@ -25,39 +25,74 @@
   <meta name="msapplication-TileImage" content="assets/icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
+  <!-- Homepage-only styles -->
   <style>
     html, body { height:100%; margin:0; }
+    body.home { min-height:100%; }
+
+    /* fullscreen GIF background (homepage only) */
+    .home-bg{
+      position: fixed; inset: 0; z-index: -2;
+      background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat;
+    }
+    /* subtle dark overlay for readability */
+    .home-bg::after{
+      content:""; position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.45));
+    }
+
     .wrap { min-height:100%; display:grid; place-items:center; padding:2rem 1rem; }
     .content { width:100%; max-width:720px; text-align:center; }
 
+    /* White text on top of the GIF */
+    .home h1 { color:#fff; text-shadow:0 2px 16px rgba(0,0,0,.35); }
+    .home p  { color:rgba(255,255,255,.95); text-shadow:0 1px 12px rgba(0,0,0,.35); }
+
+    /* Dropdown */
     .dropdown { position: relative; display: inline-block; }
-    #dropdownButton { display:flex; align-items:center; justify-content:center; gap:.5rem; }
+    #dropdownButton{
+      display:flex; align-items:center; justify-content:center; gap:.5rem;
+      background: transparent; color:#fff;
+      border:1.25px solid rgba(255,255,255,.95);
+      border-radius: 999px;
+      padding:10px 14px; font-weight:600;
+      backdrop-filter: saturate(150%) blur(2px);
+    }
+    #dropdownButton:hover{ background: rgba(255,255,255,.08); }
     #dropdownButton::after{
       content:""; display:inline-block; width:0; height:0;
       border-left:6px solid transparent; border-right:6px solid transparent;
-      border-top:6px solid #0f172a; transition: transform .2s ease;
+      border-top:6px solid #fff; transition: transform .2s ease;
     }
     #dropdownButton.active::after{ transform: rotate(180deg); }
 
     .dropdown-menu{
-      display:none; position:absolute; top:100%; left:0; z-index:10;
-      background: var(--surface); border:1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-      min-width:200px; text-align:left;
+      display:none; position:absolute; top:110%; left:0; z-index:10;
+      background: rgba(0,0,0,.65);
+      border:1px solid rgba(255,255,255,.25);
+      border-radius: 14px; box-shadow: 0 8px 20px rgba(0,0,0,.35);
+      min-width:220px; text-align:left; overflow:hidden;
+      backdrop-filter: blur(2px);
     }
-    .dropdown-menu a{ display:block; padding:.75rem 1rem; text-decoration:none; color:var(--text); }
-    .dropdown-menu a:hover{ background: var(--bg); }
+    .dropdown-menu a{
+      display:block; padding:.8rem 1rem; text-decoration:none;
+      color:#fff; font-weight:600;
+    }
+    .dropdown-menu a:hover{ background: rgba(255,255,255,.12); }
   </style>
 </head>
-<body>
+<body class="home">
+  <!-- background (homepage only) -->
+  <div class="home-bg" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="content">
-      <h1>Moffel.fit 💪</h1>
+      <h1>Moffel.fit</h1>
       <p>Selecteer jouw profiel om naar je persoonlijke omgeving te gaan.</p>
 
       <div class="dropdown">
-        <button class="btn" id="dropdownButton">Selecteer jouw profiel</button>
-        <div class="dropdown-menu" id="dropdownMenu">
+        <button class="btn" id="dropdownButton" type="button">Selecteer jouw profiel</button>
+        <div class="dropdown-menu" id="dropdownMenu" role="menu">
           <a href="eloy/">Eloy</a>
           <a href="jari/">Jari</a>
           <a href="kas/">Kas</a>
@@ -79,6 +114,14 @@
 
     document.addEventListener('click', (e) => {
       if (!button.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+        button.classList.remove('active');
+      }
+    });
+
+    // close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
         menu.style.display = 'none';
         button.classList.remove('active');
       }
