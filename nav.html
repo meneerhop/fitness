@@ -1,12 +1,22 @@
 <nav class="navbar">
   <div class="container">
     <div class="nav-inner">
-      <!-- Alleen huis-icoon, geen tekst -->
-      <a class="nav-brand" href="/" aria-label="Startpagina">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5H10v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5zM12 5.2l7 5.8V19h-3v-5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5H5v-8z"/>
-        </svg>
-      </a>
+      <!-- Linkerkant: huis + spotify -->
+      <div class="nav-left">
+        <!-- Huis -->
+        <a class="nav-brand" href="/" aria-label="Startpagina">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5H10v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5zM12 5.2l7 5.8V19h-3v-5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5H5v-8z"/>
+          </svg>
+        </a>
+
+        <!-- Spotify (zelfde stijl/maat als huis) -->
+        <a class="nav-brand nav-spotify" id="spotifyLink"
+           href="https://open.spotify.com/playlist/6yaHkYnJdPvZiowQv83aNs?si=0fe6b51d3b1d483c"
+           aria-label="Open de Moffel.fit afspeellijst in Spotify" rel="noopener">
+          <span class="nav-spotify-icon" aria-hidden="true"></span>
+        </a>
+      </div>
 
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
         <span class="bar"></span>
