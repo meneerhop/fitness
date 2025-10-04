@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(async html => {
       holder.innerHTML = html;
 
-      // ====== Per-persoon link rewriting ======
+      // --- Rewriting per persoon ---
       const parts = window.location.pathname.split("/").filter(Boolean);
       const person = parts.length ? parts[0] : "";
 
@@ -22,12 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (href === "./") {
           a.setAttribute("href", person ? `/${person}/` : "/");
         } else if (href.endsWith(".html")) {
-          const base = href.replace(/\.html$/,"");
+          const base = href.replace(/\.html$/, "");
           a.setAttribute("href", person ? `/${person}/${base}/` : `/${base}/`);
         }
       });
 
-      // ====== Hamburger toggle ======
+      // --- Hamburger toggle ---
       const toggle = holder.querySelector(".nav-toggle");
       const links  = holder.querySelector(".nav-links");
       if (toggle && links) {
@@ -43,22 +43,20 @@ document.addEventListener("DOMContentLoaded", function () {
         document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
       }
 
-      // ====== Spotify icoon: laad inline SVG en maak kleur gelijk aan huisje ======
+      // --- Spotify icoon inline laden ---
       const spotHolder = holder.querySelector(".nav-spotify-icon");
       const spotLink   = holder.querySelector(".nav-spotify");
       if (spotHolder && spotLink) {
         try {
           const svgText = await fetch("/assets/icons/spotify-icon.svg").then(r => r.text());
-          // Parse en strip inline fills zodat CSS-kleur werkt
           const doc = new DOMParser().parseFromString(svgText, "image/svg+xml");
           const svg = doc.querySelector("svg");
           if (svg) {
             svg.setAttribute("width", "20");
             svg.setAttribute("height", "20");
-            svg.setAttribute("aria-hidden","true");
-            // verwijder vaste fills op child elementen
+            svg.setAttribute("aria-hidden", "true");
+            // verwijder vaste kleur
             svg.querySelectorAll("[fill]").forEach(el => el.removeAttribute("fill"));
-            // zet default op currentColor → erft van .nav-spotify (color: var(--text))
             svg.style.fill = "currentColor";
             spotHolder.replaceWith(svg);
           }
@@ -66,11 +64,10 @@ document.addEventListener("DOMContentLoaded", function () {
           console.warn("Kon spotify-icon.svg niet laden:", e);
         }
 
-        // Deeplink: eerst app, dan web als fallback
+        // Deeplink naar app met web fallback
         const playlistId = "6yaHkYnJdPvZiowQv83aNs";
         const webUrl = "https://open.spotify.com/playlist/6yaHkYnJdPvZiowQv83aNs?si=0fe6b51d3b1d483c";
         const appUrl = `spotify:playlist:${playlistId}`;
-
         spotLink.addEventListener("click", (e) => {
           e.preventDefault();
           const start = Date.now();
