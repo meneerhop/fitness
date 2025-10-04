@@ -1,31 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
+// nav.js — laadt nav.html en herschrijft links voor clean URLs per persoon
+document.addEventListener("DOMContentLoaded", function () {
   const holder = document.getElementById("navbar");
   if (!holder) return;
 
-  fetch("/nav.html?v=3")
-    .then(r => r.ok ? r.text() : Promise.reject(r.status))
+  fetch("/nav.html")
+    .then(r => {
+      if (!r.ok) throw new Error("Kon nav.html niet laden (" + r.status + ")");
+      return r.text();
+    })
     .then(html => {
       holder.innerHTML = html;
 
-      const parts = location.pathname.split("/").filter(Boolean);
+      // Per-persoon links (mappen met index.html)
+      const parts = window.location.pathname.split("/").filter(Boolean);
       const person = parts.length ? parts[0] : "";
 
       holder.querySelectorAll(".nav-links a[href]").forEach(a => {
         const href = a.getAttribute("href");
         if (!href || /^(https?:)?\/\//i.test(href)) return;
-        if (href === "./") a.href = person ? `/${person}/` : "/";
-        else if (href.endsWith(".html")) a.href = person ? `/${person}/${href.replace(/\.html$/,"")}/` : `/${href.replace(/\.html$/,"")}/`;
+
+        if (href === "./") {
+          a.setAttribute("href", person ? `/${person}/` : "/");
+        } else if (href.endsWith(".html")) {
+          const base = href.replace(/\.html$/,"");
+          a.setAttribute("href", person ? `/${person}/${base}/` : `/${base}/`);
+        }
       });
 
+      // Hamburger
       const toggle = holder.querySelector(".nav-toggle");
       const links  = holder.querySelector(".nav-links");
       if (!toggle || !links) return;
 
       const setExpanded = v => toggle.setAttribute("aria-expanded", v ? "true" : "false");
-      const closeMenu = () => { links.classList.remove("show"); setExpanded(false); };
-      const openMenu  = () => { links.classList.add("show");    setExpanded(true);  };
+      const closeMenu = () => { links.classList.remove("show"); setExpanded(false); document.body.classList.remove("no-scroll"); };
+      const openMenu  = () => { links.classList.add("show");    setExpanded(true);  document.body.classList.add("no-scroll"); };
 
-      toggle.addEventListener("click", () => links.classList.contains("show") ? closeMenu() : openMenu());
+      toggle.addEventListener("click", () => {
+        links.classList.contains("show") ? closeMenu() : openMenu();
+      });
       links.addEventListener("click", e => { if (e.target.closest("a")) closeMenu(); });
       document.addEventListener("click", e => { if (!e.target.closest(".navbar")) closeMenu(); });
       document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
