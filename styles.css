@@ -100,39 +100,39 @@ p{ margin: 0 0 12px; color: var(--muted); }
 }
 
 /* Icon-knoppen */
-.nav-brand{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  padding: 0.75rem 1rem;
-  line-height: 0; /* geen baseline-ruimte */
-}
-
-/* Zorg dat beide SVG's exact gelijk zijn en dezelfde kleur hebben */
-.nav-brand svg{
-  width: 20px;
-  height: 20px;
-  display: block;           /* voorkomt baseline-cropping */
-  fill: var(--text);        /* kleur gelijk */
-}
-
+.nav-brand,
 .nav-spotify{
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   padding: 0.75rem 1rem;
-  line-height: 0; /* geen baseline-ruimte */
+  line-height: 0;
 }
 
-/* Zorg dat beide SVG's exact gelijk zijn en dezelfde kleur hebben */
-.nav-spotify svg{
+/* Huis-icoon (inline SVG in nav.html) */
+.nav-brand svg{
   width: 20px;
   height: 20px;
-  display: block;           /* voorkomt baseline-cropping */
-  fill: var(--text);        /* kleur gelijk */
+  display: block;
+  fill: var(--text);
 }
+
+/* Spotify-icoon (externe SVG uit /assets/icons/) */
+.nav-spotify img{
+  width: 20px;
+  height: 20px;
+  display: block;
+  object-fit: contain;
+  /* maakt wit of groen logo zwart */
+  filter: brightness(0) saturate(100%);
+  opacity: 0.9; /* optioneel: subtiel effect, kun je verwijderen */
+  transition: opacity .2s ease;
+}
+.nav-spotify img:hover{
+  opacity: 1;
+}
+
 /* Rechterzijde: links */
 .nav-links{ display: flex; gap: 14px; align-items: center; }
 .nav-links a{
