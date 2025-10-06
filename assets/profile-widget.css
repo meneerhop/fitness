@@ -1,4 +1,5 @@
-/* moffel.fit - Persoonlijke profiel widget (v1.0) */
+/* moffel.fit - Persoonlijke profiel widget (v1.0)
+   Drop-in CSS — minimal conflicts, gebruikt BEM-achtige classes. */
 .profile-card{background:#fff;border:1px solid var(--border,#e5e7eb);border-radius:24px;box-shadow:var(--shadow,0 8px 20px rgba(15,23,42,.06));padding:20px;max-width:980px;margin:24px auto}
 .profile-card__header{font-size:clamp(28px,3vw,42px);font-weight:800;color:var(--text,#0f172a);margin:6px 0 18px}
 .profile-card__grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}

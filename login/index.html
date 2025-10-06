@@ -1,53 +1,83 @@
-<script type="module">
-  import { supabase, logout } from "./js/supabaseClient.js";
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inloggen - moffel.fit</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Inloggen</h1>
+      <p class="muted">Log in om verder te gaan naar je persoonlijke pagina.</p>
+    </header>
 
-  // Lees ?next= uit de URL of uit storage
-  const url = new URL(window.location.href);
-  const next = url.searchParams.get("next") || localStorage.getItem("mf-next") || "/";
+    <section class="card">
+      <label for="email">E‑mailadres</label>
+      <input id="email" type="email" placeholder="jij@voorbeeld.nl" autocomplete="email">
+      <button id="loginBtn" class="btn">Stuur magic link</button>
 
-  // Zorg dat 'next' beschikbaar blijft tijdens OAuth/magic-link
-  localStorage.setItem("mf-next", next);
+      <div class="or">of</div>
 
-  async function refresh() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      // direct door naar de gewenste pagina
-      const dest = localStorage.getItem("mf-next") || "/";
-      window.location.href = dest;
-      return;
+      <button id="googleBtn" class="btn btn--ghost">Log in met Google</button>
+
+      <div id="msg" class="notice" style="display:none"></div>
+    </section>
+
+    <footer class="muted" style="text-align:center;margin-top:16px">
+      <button id="logoutBtn" class="link">Uitloggen</button>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { supabase, logout } from "./js/supabaseClient.js";
+
+    // next-param afhandelen
+    const url = new URL(window.location.href);
+    const next = url.searchParams.get("next") || localStorage.getItem("mf-next") || "/";
+    localStorage.setItem("mf-next", next);
+
+    async function refresh() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const dest = localStorage.getItem("mf-next") || "/";
+        window.location.href = dest;
+        return;
+      }
     }
-    document.getElementById('loginArea').style.display = 'block';
-    document.getElementById('userArea').style.display = 'none';
-  }
 
-  document.getElementById('googleBtn').addEventListener('click', async ()=>{
-    // 'next' staat al in localStorage
-    const redirectTo = `${window.location.origin}/login/auth/callback.html`;
-    await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } });
-  });
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      const msg = document.getElementById("msg");
+      if (!email) {
+        msg.textContent = "Vul je e‑mail in.";
+        msg.className = "notice error";
+        msg.style.display = "block";
+        return;
+      }
+      const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + "/login/auth/callback.html" }});
+      if (error) {
+        msg.textContent = "Er ging iets mis: " + error.message;
+        msg.className = "notice error";
+      } else {
+        msg.textContent = "Magic link verzonden! Check je e‑mail.";
+        msg.className = "notice success";
+      }
+      msg.style.display = "block";
+    });
 
-  document.getElementById('emailBtn').addEventListener('click', async ()=>{
-    const email = document.getElementById('email').value.trim();
-    const msg = document.getElementById('emailMsg');
-    msg.style.display = 'none';
-    try{
-      const redirectTo = `${window.location.origin}/login/auth/callback.html`;
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: redirectTo }
+    document.getElementById("googleBtn").addEventListener("click", async ()=>{
+      const next = localStorage.getItem("mf-next") || "/";
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin + "/login/auth/callback.html?next=" + encodeURIComponent(next) }
       });
-      if (error) throw error;
-      msg.textContent = "Magic link verzonden! Check je e-mail.";
-      msg.className = "notice success";
-      msg.style.display = "block";
-    } catch(e){
-      msg.textContent = "Er ging iets mis: " + e.message;
-      msg.className = "notice error";
-      msg.style.display = "block";
-    }
-  });
+    });
 
-  document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById("logoutBtn").addEventListener("click", logout);
 
-  refresh();
-</script>
+    refresh();
+  </script>
+</body>
+</html>
