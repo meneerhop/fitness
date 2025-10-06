@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bezig met inloggen…</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Even geduld…</h1>
+      <p class="meta">We ronden je login af en sturen je zo terug.</p>
+      <div id="msg" class="notice">Aan het verwerken…</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from "../js/supabaseClient.js";
+    const msg = document.getElementById('msg');
+    (async () => {
+      try {
+        const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+        if (error) throw error;
+        msg.textContent = "Gelukt! Je wordt doorgestuurd…";
+        setTimeout(() => window.location.href = `${window.location.origin}/login/`, 600);
+      } catch (e) {
+        msg.textContent = "Er ging iets mis: " + e.message;
+        msg.className = "notice error";
+      }
+    })();
+  </script>
+</body>
+</html>
