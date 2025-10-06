@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jouw Profiel — Moffel.fit</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="nav">
+        <a class="btn" href="./">← Login</a>
+        <button id="logoutBtn" class="ghost">Uitloggen</button>
+      </div>
+      <h1>Jouw profiel</h1>
+      <p class="meta">Ingelogd: gegevens worden veilig in je eigen rijen in de database opgeslagen.</p>
+
+      <div id="status" class="notice" style="display:none"></div>
+
+      <form id="profileForm">
+        <div class="row">
+          <div>
+            <label>Naam</label>
+            <input type="text" id="name" placeholder="Bijv. Mitchell" />
+          </div>
+          <div>
+            <label>Leeftijd (jaren)</label>
+            <input type="number" id="age" min="5" max="120" inputmode="numeric" />
+          </div>
+
+          <div>
+            <label>Lengte (cm)</label>
+            <input type="number" id="height_cm" min="80" max="250" inputmode="numeric" />
+          </div>
+          <div>
+            <label>Gewicht (kg)</label>
+            <input type="number" id="weight_kg" min="20" max="300" step="0.1" inputmode="decimal" />
+          </div>
+
+          <div>
+            <label>Geslacht</label>
+            <select id="sex">
+              <option value="">—</option>
+              <option value="male">Man</option>
+              <option value="female">Vrouw</option>
+            </select>
+          </div>
+          <div>
+            <label>Activiteitsfactor</label>
+            <select id="activity_factor">
+              <option value="">—</option>
+              <option value="1.2">Weinig (1.2)</option>
+              <option value="1.375">Licht (1.375)</option>
+              <option value="1.55">Gemiddeld (1.55)</option>
+              <option value="1.725">Hoog (1.725)</option>
+              <option value="1.9">Zeer hoog (1.9)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+          <button type="button" id="saveBtn">Opslaan</button>
+          <button type="button" id="calcBtn" class="ghost">Bereken caloriebehoefte</button>
+        </div>
+      </form>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div>Laatst berekende caloriebehoefte</div>
+          <b id="lastCalories">—</b>
+          <div class="meta" id="lastCaloriesMeta">Nog niet berekend</div>
+        </div>
+        <div class="kpi">
+          <div>Laatste update profiel</div>
+          <b id="lastUpdated">—</b>
+          <div class="meta">Wanneer je gegevens zijn opgeslagen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase, requireSession, getOrCreateProfile, saveProfile, saveCalories, getLastCalories, logout } from "./js/supabaseClient.js";
+
+    const $ = id => document.getElementById(id);
+    const status = $('status');
+
+    function showStatus(msg, ok=true){
+      status.textContent = msg;
+      status.className = "notice " + (ok ? "success" : "error");
+      status.style.display = "block";
+      setTimeout(()=> status.style.display = "none", 4000);
+    }
+
+    function fillProfile(p){
+      if (!p) return;
+      $('name').value = p.name ?? "";
+      $('age').value = p.age ?? "";
+      $('height_cm').value = p.height_cm ?? "";
+      $('weight_kg').value = p.weight_kg ?? "";
+      $('sex').value = p.sex ?? "";
+      $('activity_factor').value = p.activity_factor ?? "";
+      if (p.updated_at) $('lastUpdated').textContent = new Date(p.updated_at).toLocaleString();
+    }
+
+    async function load() {
+      await requireSession();
+      const { profile } = await getOrCreateProfile();
+      fillProfile(profile);
+      const last = await getLastCalories();
+      if (last){
+        $('lastCalories').textContent = `${last.calories} kcal/dag`;
+        $('lastCaloriesMeta').textContent = 'Berekenmoment: ' + new Date(last.calculated_at).toLocaleString();
+      }
+    }
+
+    $('saveBtn').addEventListener('click', async ()=>{
+      try{
+        const p = await saveProfile({
+          name: $('name').value.trim() || null,
+          age: $('age').value ? Number($('age').value) : null,
+          height_cm: $('height_cm').value ? Number($('height_cm').value) : null,
+          weight_kg: $('weight_kg').value ? Number($('weight_kg').value) : null,
+          sex: $('sex').value || null,
+          activity_factor: $('activity_factor').value ? Number($('activity_factor').value) : null
+        });
+        $('lastUpdated').textContent = new Date(p.updated_at).toLocaleString();
+        showStatus("Profiel opgeslagen ✅", true);
+      } catch(e){
+        showStatus("Opslaan mislukt: " + e.message, false);
+      }
+    });
+
+    $('calcBtn').addEventListener('click', async ()=>{
+      try{
+        const { data: { user } } = await supabase.auth.getUser();
+        const { data: rows } = await supabase
+          .from('profiles').select('*').eq('id', user.id).limit(1);
+        const p = rows?.[0];
+        if (!p || !p.age || !p.height_cm || !p.weight_kg || !p.sex) {
+          showStatus("Vul leeftijd, lengte, gewicht en geslacht in en sla eerst op.", false);
+          return;
+        }
+        const bmr = p.sex === 'male'
+          ? 10*p.weight_kg + 6.25*p.height_cm - 5*p.age + 5
+          : 10*p.weight_kg + 6.25*p.height_cm - 5*p.age - 161;
+        const factor = p.activity_factor || 1.2;
+        const tdee = Math.round(bmr * factor);
+        await saveCalories(tdee);
+        $('lastCalories').textContent = `${tdee} kcal/dag`;
+        $('lastCaloriesMeta').textContent = 'Berekenmoment: ' + new Date().toLocaleString();
+        showStatus("Caloriebehoefte berekend en opgeslagen ✅", true);
+      } catch(e){
+        showStatus("Berekenen mislukt: " + e.message, false);
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    load();
+  </script>
+</body>
+</html>
