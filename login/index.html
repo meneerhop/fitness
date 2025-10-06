@@ -56,7 +56,7 @@
         msg.style.display = "block";
         return;
       }
-      const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + "/login/auth/callback.html" }});
+      const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + "/login/auth/callback.html?next=" + encodeURIComponent(localStorage.getItem("mf-next") || "/") }});
       if (error) {
         msg.textContent = "Er ging iets mis: " + error.message;
         msg.className = "notice error";
