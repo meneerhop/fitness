@@ -7,6 +7,17 @@
   
   <link rel="stylesheet" href="/styles.css">
 </head>
+  <script type="module">
+  import { supabase } from "/login/js/supabaseClient.js";
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    const next = window.location.pathname + window.location.search + window.location.hash;
+    localStorage.setItem("mf-next", next);
+    window.location.href = `/login/?next=${encodeURIComponent(next)}`;
+  }
+</script>
+
 <body>
   <div id="navbar"></div>
   
