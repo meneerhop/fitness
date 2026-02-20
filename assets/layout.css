@@ -46,9 +46,12 @@ body{
 
 .profile-select-menu{
   margin-top:20px;
-  background:#fff;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  border:1px solid rgba(255,255,255,0.3);
   border-radius:26px;
-  box-shadow:0 30px 60px rgba(0,0,0,.25);
+  box-shadow:0 30px 60px rgba(0,0,0,.4);
   overflow:hidden;
   display:none;
   flex-direction:column;
@@ -58,12 +61,12 @@ body{
 .profile-select-menu a{
   padding:20px;
   text-decoration:none;
-  color:#000;
+  color:#fff;
   font-size:18px;
 }
 
 .profile-select-menu a:not(:last-child){
-  border-bottom:1px solid #eee;
+  border-bottom:1px solid rgba(255,255,255,0.2);
 }
 
 .profile-select-menu.show{display:flex;}
