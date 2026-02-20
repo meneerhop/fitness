@@ -114,6 +114,31 @@
 </head>
 
 <body class="home">
+
+<header class="navbar">
+  <div class="nav-left">
+    <a href="/index.html"><img src="/assets/icons/home.svg" alt="Home"></a>
+    <a href="https://open.spotify.com" target="_blank">
+      <img src="/assets/icons/spotify.svg" alt="Spotify">
+    </a>
+  </div>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<div class="dropdown" id="dropdownMenu">
+  <a href="index.html">Home</a>
+  <a href="schema.html">Schema</a>
+  <a href="voeding.html">Voeding</a>
+  <a href="calorie.html">Caloriebehoefte</a>
+  <a href="agenda.html">Agenda</a>
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById("dropdownMenu").classList.toggle("show");
+}
+</script>
+
   <!-- Achtergrond -->
   <div class="background" aria-hidden="true"></div>
 
