@@ -1,2 +1,0 @@
-# fitness
-Fitness schema
