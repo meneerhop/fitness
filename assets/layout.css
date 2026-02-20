@@ -14,7 +14,7 @@ body{
   color:#000;
 }
 
-/* HERO WITH WALLPAPER */
+/* HERO */
 .hero{
   min-height:100vh;
   display:flex;
@@ -23,36 +23,41 @@ body{
   flex-direction:column;
   text-align:center;
   padding:20px;
-  background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
-             url('../Wallpaper.jpg') center/cover no-repeat;
+  background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),url('hero.jpg') center/cover no-repeat;
   color:#fff;
+}
+
+.hero h1{
+  font-size:36px;
+  margin-bottom:40px;
 }
 
 .profile-select-btn{
-  padding:16px 28px;
+  padding:18px 32px;
   border-radius:30px;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.5);
   color:#fff;
-  font-size:16px;
+  font-size:18px;
 }
 
 .profile-select-menu{
-  margin-top:14px;
+  margin-top:18px;
   background:#fff;
   border-radius:24px;
   box-shadow:0 20px 50px rgba(0,0,0,.25);
   overflow:hidden;
   display:none;
   flex-direction:column;
-  min-width:240px;
+  min-width:260px;
 }
 
 .profile-select-menu a{
-  padding:16px;
+  padding:18px;
   text-decoration:none;
   color:#000;
+  font-size:18px;
 }
 
 .profile-select-menu a:not(:last-child){
@@ -71,12 +76,18 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 16px;
+  padding:0 20px;
   z-index:1002;
 }
 
-.menu-btn{
+.home-icon{
   font-size:22px;
+  color:#000;
+  text-decoration:none;
+}
+
+.menu-btn{
+  font-size:24px;
   background:none;
   border:none;
 }
