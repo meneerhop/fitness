@@ -1,56 +1,31 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-:root{
-  --bg:#0e0e11;
-}
-
-*{box-sizing:border-box;margin:0;padding:0;}
-
-html{
-  scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#0e0e11;
   color:#fff;
   overflow-x:hidden;
-}
-
-/* PAGE FADE */
-body.fade-out{
-  opacity:0;
   transition:opacity .25s ease;
 }
+body.fade-out{opacity:0}
 
-body{
-  opacity:1;
-  transition:opacity .25s ease;
-}
-
-/* HERO */
 .hero{
   min-height:100vh;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
   text-align:center;
-  padding:20px;
   background:
     linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
     url('/hero.jpg') center/cover no-repeat;
-  background-attachment:fixed;
 }
 
 .hero h1{
   font-size:44px;
-  margin-bottom:60px;
-  letter-spacing:-0.5px;
+  margin-bottom:50px;
 }
 
-/* BUTTON */
 .profile-select-btn{
   padding:18px 36px;
   border-radius:40px;
@@ -59,86 +34,46 @@ body{
   border:1px solid rgba(255,255,255,0.4);
   color:#fff;
   font-size:18px;
-  transition:transform .15s ease, background .2s ease;
 }
 
-.profile-select-btn:active{
-  transform:scale(0.96);
-  background:rgba(255,255,255,0.25);
-}
-
-/* DROPDOWN */
 .profile-select-menu{
   margin-top:25px;
   background:rgba(255,255,255,0.12);
   backdrop-filter:blur(30px);
-  border:1px solid rgba(255,255,255,0.25);
   border-radius:28px;
-  box-shadow:0 40px 80px rgba(0,0,0,.5);
   overflow:hidden;
-  min-width:280px;
-
-  opacity:0;
-  transform:translateY(-15px) scale(0.95);
-  pointer-events:none;
-  transition:
-    opacity .3s ease,
-    transform .4s cubic-bezier(.34,1.56,.64,1);
-}
-
-.profile-select-menu.show{
-  display:flex;
+  min-width:260px;
+  display:none;
   flex-direction:column;
-  opacity:1;
-  transform:translateY(0) scale(1);
-  pointer-events:auto;
 }
+.profile-select-menu.show{display:flex}
 
 .profile-select-menu a{
-  padding:22px;
+  padding:20px;
   text-decoration:none;
   color:#fff;
-  font-size:18px;
-  transition:background .2s ease, transform .1s ease;
+  text-align:center;
 }
-
 .profile-select-menu a:not(:last-child){
-  border-bottom:1px solid rgba(255,255,255,0.15);
+  border-bottom:1px solid rgba(255,255,255,.2);
 }
 
-.profile-select-menu a:active{
-  background:rgba(255,255,255,0.15);
-  transform:scale(0.97);
-}
-
-/* NAVBAR */
+/* NAV */
 .navbar{
   position:fixed;
   top:0;left:0;right:0;
   height:60px;
   backdrop-filter:blur(25px);
-  background:rgba(0,0,0,0.4);
+  background:rgba(0,0,0,.4);
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 20px;
   z-index:1002;
 }
+.home-icon svg{width:22px;fill:#fff}
+.menu-btn{font-size:26px;background:none;border:none;color:#fff}
 
-.home-icon svg{
-  width:22px;
-  height:22px;
-  fill:#fff;
-}
-
-.menu-btn{
-  font-size:26px;
-  background:none;
-  border:none;
-  color:#fff;
-}
-
-/* DRAWER */
 .drawer{
   position:fixed;
   top:0;
@@ -146,57 +81,37 @@ body{
   width:300px;
   height:100vh;
   background:#111;
-  box-shadow:-30px 0 80px rgba(0,0,0,.6);
   padding-top:80px;
-  transition:.4s cubic-bezier(.4,.0,.2,1);
+  transition:.3s ease;
   display:flex;
   flex-direction:column;
-  z-index:1003;
 }
-
+.drawer.show{right:0}
 .drawer a{
-  padding:22px;
-  text-decoration:none;
+  padding:20px;
   color:#fff;
-  font-size:18px;
-  transition:background .2s ease;
+  text-decoration:none;
 }
-
 .drawer a.active{
-  background:rgba(255,255,255,0.1);
+  background:rgba(255,255,255,.15);
   font-weight:600;
 }
-
-.drawer a:active{
-  background:rgba(255,255,255,0.15);
-}
-
-.drawer.show{right:0;}
 
 .overlay{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.5);
   display:none;
-  z-index:1001;
 }
+.overlay.show{display:block}
 
-.overlay.show{display:block;}
-
-/* CONTENT */
 .container{
   padding:120px 20px 40px;
 }
 
 .card{
-  background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(30px);
-  border-radius:32px;
-  padding:35px;
-  box-shadow:0 30px 70px rgba(0,0,0,.5);
-}
-
-ul{
-  margin-top:15px;
-  padding-left:20px;
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(25px);
+  border-radius:30px;
+  padding:30px;
 }
