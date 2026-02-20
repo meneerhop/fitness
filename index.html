@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -13,14 +12,23 @@
   <div>
     <h1>Moffel.fit</h1>
     <p>Selecteer jouw profiel om naar je persoonlijke omgeving te gaan.</p>
-    <div>
-      <a class="btn" href="mitchell/index.html">Mitchell</a>
-      <a class="btn" href="persoon2/index.html">Persoon 2</a>
-      <a class="btn" href="persoon3/index.html">Persoon 3</a>
-      <a class="btn" href="persoon4/index.html">Persoon 4</a>
+
+    <div class="profile-dropdown-wrapper">
+      <button class="profile-select-btn" onclick="toggleProfileSelect()">
+        Selecteer jouw profiel ▼
+      </button>
+
+      <div class="profile-select-menu" id="profileSelectMenu">
+        <a href="mitchell/index.html">Mitchell</a>
+        <a href="persoon2/index.html">Persoon 2</a>
+        <a href="persoon3/index.html">Persoon 3</a>
+        <a href="persoon4/index.html">Persoon 4</a>
+      </div>
     </div>
+
   </div>
 </div>
 
+<script src="assets/nav.js"></script>
 </body>
 </html>
