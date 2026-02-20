@@ -11,16 +11,18 @@
 
 <header class="navbar">
   <div>🏠</div>
-  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <button class="menu-btn" onclick="toggleNav()">☰</button>
 </header>
 
-<div class="dropdown" id="dropdownMenu">
+<div class="drawer" id="drawer">
   <a href="index.html">Home</a>
   <a href="#">Schema</a>
   <a href="#">Voeding</a>
   <a href="#">Caloriebehoefte</a>
   <a href="#">Agenda</a>
 </div>
+
+<div class="overlay" id="overlay" onclick="closeNav()"></div>
 
 <div class="container">
   <div class="card">

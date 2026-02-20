@@ -4,17 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Persoon 3</title>
+<title>Persoon3</title>
 <link rel="stylesheet" href="../assets/layout.css">
 </head>
 <body>
 
 <header class="navbar">
   <div>🏠</div>
-  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <button class="menu-btn" onclick="toggleNav()">☰</button>
 </header>
 
-<div class="dropdown" id="dropdownMenu">
+<div class="drawer" id="drawer">
   <a href="index.html">Home</a>
   <a href="#">Schema</a>
   <a href="#">Voeding</a>
@@ -22,10 +22,12 @@
   <a href="#">Agenda</a>
 </div>
 
+<div class="overlay" id="overlay" onclick="closeNav()"></div>
+
 <div class="container">
   <div class="card">
-    <h1>Persoon 3</h1>
-    <p>Hier komt het persoonlijke schema van Persoon 3.</p>
+    <h1>Persoon3</h1>
+    <p>Hier komt het persoonlijke schema van Persoon3.</p>
   </div>
 </div>
 

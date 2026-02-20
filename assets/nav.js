@@ -1,19 +1,14 @@
-function toggleMenu(){
-  const menu = document.getElementById("dropdownMenu");
-  menu.classList.toggle("show");
+
+function toggleProfile(){
+  document.getElementById("profileMenu").classList.toggle("show");
 }
 
-// Sluit menu als je buiten klikt
-document.addEventListener("click", function(e){
-  const menu = document.getElementById("dropdownMenu");
-  const btn = document.querySelector(".menu-btn");
+function toggleNav(){
+  document.getElementById("drawer").classList.toggle("show");
+  document.getElementById("overlay").classList.toggle("show");
+}
 
-  if(menu && !menu.contains(e.target) && !btn.contains(e.target)){
-    menu.classList.remove("show");
-  }
-});
-
-function toggleProfileSelect(){
-  const menu = document.getElementById("profileSelectMenu");
-  menu.classList.toggle("show");
+function closeNav(){
+  document.getElementById("drawer").classList.remove("show");
+  document.getElementById("overlay").classList.remove("show");
 }
