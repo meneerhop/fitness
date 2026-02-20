@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moffel.fit - Home</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+
+    /* HOMEPAGE */
+    body.home{
+      background: transparent !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* ==== Fullscreen achtergrond ==== */
+    .background{
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh; /* fallback */
+      background: url('https://i.ibb.co/NfJvFMs/ezgif-3c3b2d9a1b79bc.gif') center / cover no-repeat;
+      z-index: 0;
+    }
+    /* moderne viewport-units (werkt op iOS) */
+    @supports (height: 100dvh){
+      .background{ height: 100dvh; }
+    }
+    @supports (height: 100svh){
+      .background{ height: 100svh; }
+    }
+
+    /* donkere overlay */
+    .background::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6));
+      z-index:1;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Content */
+    .wrap{
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 720px;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    @supports (min-height: 100dvh){
+      .wrap{ min-height: 100dvh; }
+    }
+    @supports (min-height: 100svh){
+      .wrap{ min-height: 100svh; }
+    }
+
+    h1{
+      color:#fff;
+      text-shadow:0 2px 16px rgba(0,0,0,.35);
+      font-size: clamp(28px, 5vw, 42px);
+      margin-bottom:.5rem;
+    }
+    p{
+      color: rgba(255,255,255,.9);
+      text-shadow: 0 1px 12px rgba(0,0,0,.35);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Dropdown */
+    .dropdown { position: relative; display: inline-block; }
+    #dropdownButton{
+      display:flex; align-items:center; justify-content:center; gap:.5rem;
+      background: transparent; color:#fff;
+      border:1.25px solid rgba(255,255,255,.9);
+      border-radius:999px; padding:10px 14px;
+      font-weight:600; backdrop-filter:saturate(150%) blur(2px);
+      transition: background .2s ease;
+    }
+    #dropdownButton:hover{ background: rgba(255,255,255,.1); }
+    #dropdownButton::after{
+      content:""; width:0; height:0; display:inline-block;
+      border-left:6px solid transparent; border-right:6px solid transparent;
+      border-top:6px solid #fff; transition: transform .2s ease;
+    }
+    #dropdownButton.active::after{ transform: rotate(180deg); }
+
+    .dropdown-menu{
+      display:none; position:absolute; top:110%; left:0; right:0;
+      background: rgba(0,0,0,.7);
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,.35);
+      text-align:left; overflow:hidden; backdrop-filter: blur(3px);
+    }
+    .dropdown-menu a{
+      display:block; padding:.8rem 1rem; color:#fff; font-weight:600; text-decoration:none;
+    }
+    .dropdown-menu a:hover{ background: rgba(255,255,255,.12); }
+  </style>
+<link rel="stylesheet" href="../assets/layout.css">
+</head>
+
+<body class="home">
+<header class="navbar">
+  <div class="nav-left">
+    <a href="../index.html"><img src="../assets/icons/home.svg" alt="Home"></a>
+    <a href="https://open.spotify.com" target="_blank">
+      <img src="../assets/icons/spotify.svg" alt="Spotify">
+    </a>
+  </div>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<div class="dropdown" id="dropdownMenu">
+  <a href="index.html">Home</a>
+  <a href="schema.html">Schema</a>
+  <a href="voeding.html">Voeding</a>
+  <a href="calorie.html">Caloriebehoefte</a>
+  <a href="agenda.html">Agenda</a>
+</div>
+
+  <!-- Achtergrond -->
+  <div class="background" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <h1>Moffel.fit</h1>
+    <p>Selecteer jouw profiel om naar je persoonlijke omgeving te gaan.</p>
+
+    <div class="dropdown">
+      <button id="dropdownButton" type="button">Selecteer jouw profiel</button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="eloy/">Eloy</a>
+        <a href="jari/">Jari</a>
+        <a href="kas/">Kas</a>
+        <a href="mitchell/">Mitchell</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const button = document.getElementById('dropdownButton');
+    const menu = document.getElementById('dropdownMenu');
+
+    button.addEventListener('click', () => {
+      const open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+      button.classList.toggle('active', !open);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!button.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+        button.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        menu.style.display = 'none';
+        button.classList.remove('active');
+      }
+    });
+  </script>
+<script src="../assets/nav.js"></script>
+</body>
+</html>
