@@ -1,6 +1,15 @@
 
 function toggleProfile(){
-  document.getElementById("profileMenu").classList.toggle("show");
+  const menu = document.getElementById("profileMenu");
+
+  if(menu.classList.contains("show")){
+    menu.classList.remove("show");
+  } else {
+    menu.style.display = "flex";
+    requestAnimationFrame(() => {
+      menu.classList.add("show");
+    });
+  }
 }
 
 function toggleNav(){
