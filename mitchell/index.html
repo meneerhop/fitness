@@ -3,102 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Overzicht - Mitchell</title>
+  <title>Mitchell - Profiel</title>
 
-  <!-- Basis styles -->
-  <link rel="stylesheet" href="/styles.css">
-
-  <!-- ✅ Profiel-widget styles -->
-  <link rel="stylesheet" href="/assets/profile-widget.css">
+  <link rel="stylesheet" href="premium-styles.css">
 </head>
 
 <body>
-  <div id="navbar"></div>
 
-  <main>
-    <h1>Mitchell Hop</h1>
-    <p>Hier komt het persoonlijke schema van Mitchell.</p>
+  <!-- ===== Premium Mobile Navbar ===== -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="index.html" class="icon-btn" aria-label="Home">🏠</a>
+      <a href="https://open.spotify.com" target="_blank" class="icon-btn" aria-label="Spotify">🎵</a>
+    </div>
 
-    <!-- ✅ Profiel-widget -->
-    <section class="profile-card" data-profile-widget data-person="mitchell">
-      <div class="profile-card__header">Welkom Mitchell</div>
-      <div class="profile-card__panel">
-        <div class="profile-card__grid">
-          <div>
-            <div class="profile-card__avatar" data-field="photo">
-              <img alt="Profielfoto" style="display:none"/>
-              <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M4 7h4l2-2h4l2 2h4v12H4z"/><circle cx="12" cy="13" r="4"/>
-              </svg>
-            </div>
-            <input class="profile-card__avatar-upload" type="file" accept="image/*" data-field="photo-input">
-            <p class="profile-muted">Mogelijkheid om foto toe te voegen</p>
-          </div>
+    <div class="nav-right">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+  </header>
 
-          <div>
-            <div class="profile-card__label">voornaam</div>
-            <input class="profile-card__input" placeholder="hier kun je je voornaam invoeren" data-field="firstName">
+  <!-- Dropdown Menu -->
+  <div class="dropdown" id="dropdownMenu">
+    <a href="#">Schema</a>
+    <a href="#">Voeding</a>
+    <a href="#">Caloriebehoefte</a>
+    <a href="#">Agenda</a>
+  </div>
 
-            <div class="profile-card__label" style="margin-top:14px">achternaam</div>
-            <input class="profile-card__input" placeholder="hier kun je je achternaam invoeren" data-field="lastName">
+  <!-- ===== Main Content ===== -->
+  <main class="container">
 
-            <div class="profile-card__row" style="margin-top:14px">
-              <div style="width:100%">
-                <div class="profile-card__label">lengte</div>
-                <input class="profile-card__input" placeholder="hier kun je je lengte invullen" data-field="heightCm">
-              </div>
-              <div class="profile-card__unit">cm</div>
-            </div>
+    <section class="hero-card">
+      <h1>Mitchell Hop</h1>
+      <p>Welkom terug 👋 Klaar voor je volgende workout?</p>
+    </section>
 
-            <div class="profile-card__row">
-              <div style="width:100%">
-                <div class="profile-card__label">gewicht</div>
-                <input class="profile-card__input" placeholder="hier kun je je gewicht invullen" data-field="weightKg">
-                <div class="profile-card__sub">automatische komma (86,5)</div>
-              </div>
-              <div class="profile-card__unit">kg</div>
-            </div>
-
-            <div class="profile-card__row">
-              <div style="width:100%">
-                <div class="profile-card__label">caloriebehoefte</div>
-                <input class="profile-card__input" placeholder="laatst opgeslagen caloriebehoefte" data-field="caloriesKcal">
-                <div class="profile-card__sub">pakt de laatst opgeslagen waarde</div>
-              </div>
-              <div class="profile-card__unit">kcal</div>
-            </div>
-
-            <div class="profile-card__row">
-              <div style="width:100%">
-                <div class="profile-card__label">workouts voltooid</div>
-                <div class="profile-card__workouts">
-                  <div class="profile-badge" data-field="workoutsCompleted">0</div>
-                  <button class="profile-btn profile-btn--ghost" data-action="inc-workouts" type="button">+1</button>
-                </div>
-                <div class="profile-card__sub">Tel +1 wanneer een workout is afgerond</div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Workouts voltooid</div>
       </div>
 
-      <div class="profile-card__label" style="text-align:center;margin-top:18px">workouts</div>
-      <div class="profile-card__chips">
-        <a class="profile-chip" data-day="maandag">maandag</a>
-        <a class="profile-chip" data-day="dinsdag">dinsdag</a>
-        <a class="profile-chip" data-day="/woensdag">woensdag</a>
-        <a class="profile-chip" data-day="donderdag">donderdag</a>
-        <a class="profile-chip" data-day="vrijdag">vrijdag</a>
-        <a class="profile-chip" data-day="aterdag">zaterdag</a>
-        <a class="profile-chip" data-day="zondag">zondag</a>
+      <div class="stat-card">
+        <div class="stat-number">86,5</div>
+        <div class="stat-label">Gewicht (kg)</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-number">2800</div>
+        <div class="stat-label">Caloriebehoefte</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-number">180</div>
+        <div class="stat-label">Lengte (cm)</div>
       </div>
     </section>
+
   </main>
 
-  <script src="/nav.js"></script>
+<script>
+function toggleMenu() {
+  document.getElementById("dropdownMenu").classList.toggle("show");
+}
+</script>
 
-  <!-- ✅ Profiel-widget script -->
-  <script src="/assets/profile-widget.js"></script>
 </body>
 </html>
-
