@@ -3,9 +3,7 @@
 
 :root{
   --bg:#f2f2f7;
-  --card:rgba(255,255,255,0.7);
-  --text:#000;
-  --muted:#6e6e73;
+  --card:rgba(255,255,255,0.75);
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -13,10 +11,10 @@
 body{
   font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:var(--bg);
-  color:var(--text);
+  color:#000;
 }
 
-/* HERO */
+/* HERO WITH WALLPAPER */
 .hero{
   min-height:100vh;
   display:flex;
@@ -25,19 +23,17 @@ body{
   flex-direction:column;
   text-align:center;
   padding:20px;
-  background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),url('hero.jpg') center/cover no-repeat;
+  background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+             url('../Wallpaper.jpg') center/cover no-repeat;
   color:#fff;
 }
-
-.hero h1{font-size:34px;margin-bottom:12px;}
-.hero p{opacity:.85;margin-bottom:24px;}
 
 .profile-select-btn{
   padding:16px 28px;
   border-radius:30px;
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.4);
   color:#fff;
   font-size:16px;
 }
@@ -46,7 +42,7 @@ body{
   margin-top:14px;
   background:#fff;
   border-radius:24px;
-  box-shadow:0 20px 50px rgba(0,0,0,.2);
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
   overflow:hidden;
   display:none;
   flex-direction:column;
@@ -76,8 +72,7 @@ body{
   align-items:center;
   justify-content:space-between;
   padding:0 16px;
-  border-bottom:1px solid rgba(0,0,0,.05);
-  z-index:1000;
+  z-index:1002;
 }
 
 .menu-btn{
@@ -98,6 +93,7 @@ body{
   transition:.3s ease;
   display:flex;
   flex-direction:column;
+  z-index:1003;
 }
 
 .drawer a{
@@ -114,6 +110,7 @@ body{
   inset:0;
   background:rgba(0,0,0,.2);
   display:none;
+  z-index:1001;
 }
 
 .overlay.show{display:block;}
