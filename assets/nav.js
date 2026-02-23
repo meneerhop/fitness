@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", function(){
 
   document.querySelectorAll("a[href]").forEach(link => {
-
     const href = link.getAttribute("href");
 
     if(href && href.endsWith(".html")){
@@ -14,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function(){
         }, 180);
       });
     }
-
   });
 
 });
@@ -26,9 +24,11 @@ function toggleProfile(){
 function toggleNav(){
   document.getElementById("drawer").classList.toggle("show");
   document.getElementById("overlay").classList.toggle("show");
+  document.body.classList.toggle("nav-open");
 }
 
 function closeNav(){
   document.getElementById("drawer").classList.remove("show");
   document.getElementById("overlay").classList.remove("show");
+  document.body.classList.remove("nav-open");
 }
