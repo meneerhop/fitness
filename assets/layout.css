@@ -1,11 +1,13 @@
 
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;background:#000;color:#fff;}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0b0b0f;color:#fff;}
 .hero{background:url('https://moffel.fit/hero.jpg') center/cover no-repeat;height:100vh;display:flex;justify-content:center;align-items:center;}
-.hero-overlay{background:rgba(0,0,0,.6);backdrop-filter:blur(25px);padding:40px;border-radius:30px;text-align:center;}
-.glass-btn{display:inline-block;margin-top:20px;padding:15px 30px;border-radius:50px;background:rgba(255,255,255,.15);backdrop-filter:blur(20px);color:#fff;text-decoration:none;}
-.container{padding:30px;padding-bottom:100px;}
-input{width:100%;padding:15px;margin:10px 0;border-radius:15px;border:none;background:#222;color:#fff;}
-button{width:100%;padding:15px;margin:10px 0;border-radius:15px;border:none;background:#fff;color:#000;font-weight:bold;}
-.navbar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:rgba(0,0,0,.7);backdrop-filter:blur(20px);padding:10px 0;}
-.navbar button{background:none;color:#fff;border:none;font-size:14px;}
-.card{background:rgba(255,255,255,.1);backdrop-filter:blur(20px);padding:20px;border-radius:20px;margin:10px 0;}
+.hero-overlay{background:rgba(0,0,0,.7);backdrop-filter:blur(40px);padding:60px;border-radius:40px;text-align:center;}
+.glass-btn{display:inline-block;margin-top:20px;padding:15px 30px;border-radius:50px;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;}
+.app-shell{padding:30px;padding-bottom:100px;animation:fade .4s ease;}
+.navbar{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:rgba(10,10,15,.85);backdrop-filter:blur(30px);padding:15px 0;}
+.navbar button{background:none;border:none;color:#fff;opacity:.6;}
+.navbar button.active{opacity:1;transform:scale(1.1);}
+.card{background:rgba(255,255,255,.07);padding:20px;border-radius:25px;margin-bottom:15px;}
+input{width:100%;padding:15px;margin:10px 0;border-radius:20px;border:none;background:#1c1c24;color:#fff;}
+button.primary{background:#fff;color:#000;padding:12px;border-radius:20px;border:none;}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
