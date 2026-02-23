@@ -1,65 +1,43 @@
-import { auth, db } from './firebase.js';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, setDoc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-window.showLogin = () => {
-  authContainer.classList.add('hidden');
-  loginContainer.classList.remove('hidden');
+import { initAuth } from './auth.js';
+import { state } from './state.js';
+import { navigate } from './router.js';
+import { dashboardView, settingsView } from './views.js';
+import { calendarView } from './views.js';
+import { progressView } from './views.js';
+import { adminView } from './views.js';
+import { adminRoleView } from './views.js';
+
+const app = document.getElementById('app');
+
+window.renderApp = function(){
+let content = "";
+
+if(state.route === "dashboard") content = dashboardView();
+if(state.route === "settings") content = settingsView();
+if(state.route === "calendar") content = await calendarView();
+if(state.route === "progress") content = await progressView();
+if(state.route === "admin") content = await adminView();
+if(state.route === "adminRoles") content = await adminRoleView();
+if(state.route === "trainer") content = await trainerView();
+if(state.route === "profile") content = await profileView();
+
+app.innerHTML = content + renderNav();
 };
 
-window.showRegister = () => {
-  authContainer.classList.add('hidden');
-  registerContainer.classList.remove('hidden');
-};
-
-window.login = async () => {
-  const email = loginEmail.value;
-  const password = loginPassword.value;
-  await signInWithEmailAndPassword(auth, email, password);
-};
-
-window.register = async () => {
-  const name = regName.value;
-  const email = regEmail.value;
-  const password = regPassword.value;
-  const userCred = await createUserWithEmailAndPassword(auth, email, password);
-  await setDoc(doc(db, "users", userCred.user.uid), { name: name, role: "user" });
-};
-
-window.logout = async () => {
-  await signOut(auth);
-};
-
-onAuthStateChanged(auth, async user => {
-  if(user){
-    authContainer.classList.add('hidden');
-    loginContainer.classList.add('hidden');
-    registerContainer.classList.add('hidden');
-    appContainer.classList.remove('hidden');
-
-    const userDoc = await getDoc(doc(db,"users",user.uid));
-    const data = userDoc.data();
-    welcomeText.innerText = "Welkom " + data.name;
-
-    if(data.role === "admin"){
-      adminPanel.classList.remove('hidden');
-      const usersSnap = await getDocs(collection(db,"users"));
-      userList.innerHTML = "";
-      usersSnap.forEach(doc => {
-        userList.innerHTML += "<div>"+doc.data().name+"</div>";
-      });
-    }
-
-    buildCalendar();
-  } else {
-    appContainer.classList.add('hidden');
-    authContainer.classList.remove('hidden');
-  }
-});
-
-function buildCalendar(){
-  calendar.innerHTML = "";
-  for(let i=1;i<=30;i++){
-    calendar.innerHTML += `<div class="day">${i}</div>`;
-  }
+function renderNav(){
+return `<div class="navbar">
+<button class="${state.route==='dashboard'?'active':''}" onclick="nav('dashboard')">Home</button>
+<button class="${state.route==='settings'?'active':''}" onclick="nav('settings')">Settings</button>
+<button onclick="nav('calendar')">Kalender</button>
+<button onclick="nav('progress')">Progress</button>
+<button onclick="nav('admin')">Admin</button>
+<button onclick="nav('adminRoles')">Rollen</button>
+<button onclick="nav('trainer')">Trainer</button>
+<button onclick="nav('profile')">Profiel</button>
+</div>`;
 }
+
+window.nav = (r)=>navigate(r);
+
+initAuth();

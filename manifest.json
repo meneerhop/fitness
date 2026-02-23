@@ -1,0 +1,16 @@
+
+{
+  "name": "Moffel.fit",
+  "short_name": "Moffel",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#05060d",
+  "theme_color": "#05060d",
+  "icons": [
+    {
+      "src": "hero.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

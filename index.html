@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="manifest" href="manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moffel.fit</title>
 <link rel="stylesheet" href="assets/layout.css">
 </head>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
 <body class="hero">
 <div class="hero-card">
-    <h1>Moffel.fit</h1>
-    <button class="btn-primary" onclick="location.href='app.html'">Start</button>
+<h1>Moffel.fit</h1>
+<button class="btn-primary" onclick="location.href='app.html'">Start</button>
 </div>
 </body>
 </html>
