@@ -5,10 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moffel.fit App</title>
 <link rel="stylesheet" href="assets/layout.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="module" src="assets/app.js"></script>
+<script type="module" src="js/app.js"></script>
 </head>
 <body>
-<div id="app"></div>
+
+<div id="authContainer" class="auth-card">
+  <h2>Welkom</h2>
+  <button class="btn-primary" onclick="showLogin()">Inloggen</button>
+  <button class="btn-secondary" onclick="showRegister()">Registreren</button>
+</div>
+
+<div id="loginContainer" class="auth-card hidden">
+  <h2>Inloggen</h2>
+  <input id="loginEmail" placeholder="Email">
+  <input id="loginPassword" type="password" placeholder="Wachtwoord">
+  <button class="btn-primary" onclick="login()">Inloggen</button>
+</div>
+
+<div id="registerContainer" class="auth-card hidden">
+  <h2>Registreren</h2>
+  <input id="regName" placeholder="Naam">
+  <input id="regEmail" placeholder="Email">
+  <input id="regPassword" type="password" placeholder="Wachtwoord">
+  <button class="btn-primary" onclick="register()">Registreren</button>
+</div>
+
+<div id="appContainer" class="app hidden">
+  <div class="card">
+    <h2 id="welcomeText">Welkom</h2>
+  </div>
+
+  <div class="card">
+    <h3>Maand Kalender</h3>
+    <div id="calendar" class="calendar"></div>
+  </div>
+
+  <div class="card hidden" id="adminPanel">
+    <h3>Admin Dashboard</h3>
+    <div id="userList"></div>
+  </div>
+
+  <div class="navbar">
+    <button onclick="showHome()">Home</button>
+    <button onclick="showAgenda()">Agenda</button>
+    <button onclick="logout()">Uit</button>
+  </div>
+</div>
+
 </body>
 </html>
