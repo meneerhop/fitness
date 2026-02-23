@@ -3,53 +3,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moffel.fit - Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moffel.fit</title>
 <link rel="stylesheet" href="assets/layout.css">
 </head>
-<body>
-
-<div class="container">
-<h1>Moffel.fit</h1>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Wachtwoord">
-<button onclick="login()">Inloggen</button>
-<button onclick="register()">Registreren</button>
+<body class="hero">
+<div class="hero-overlay">
+    <h1>Moffel.fit</h1>
+    <a href="app.html" class="glass-btn">Start</a>
 </div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<script>
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAa1DzEnexvARCeZixcN0JRTpheRY5WKZM",
-  authDomain: "moffel-fit.firebaseapp.com",
-  projectId: "moffel-fit",
-  storageBucket: "moffel-fit.firebasestorage.app",
-  messagingSenderId: "766711451730",
-  appId: "1:766711451730:web:006be1b47507a9fc394f8b",
-  measurementId: "G-ZR5XTCCJ62"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-
-function login(){
-  auth.signInWithEmailAndPassword(
-    email.value,
-    password.value
-  ).then(()=>window.location="app.html").catch(alert);
-}
-
-function register(){
-  auth.createUserWithEmailAndPassword(
-    email.value,
-    password.value
-  ).then(()=>window.location="app.html").catch(alert);
-}
-</script>
-
 </body>
 </html>

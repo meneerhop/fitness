@@ -1,41 +1,43 @@
 
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#0e0e11;
-  color:#fff;
+body {
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+    background:#000;
+    color:white;
 }
 
-.container{
-  max-width:600px;
-  margin:80px auto;
-  padding:30px;
-  background:rgba(255,255,255,.06);
-  backdrop-filter:blur(20px);
-  border-radius:20px;
+.hero {
+    background:url('https://moffel.fit/hero.jpg') center/cover no-repeat;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-input, button{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
+.hero-overlay {
+    backdrop-filter:blur(20px);
+    background:rgba(0,0,0,0.4);
+    padding:40px;
+    border-radius:30px;
+    text-align:center;
 }
 
-button{
-  background:#fff;
-  color:#000;
-  font-weight:600;
-  cursor:pointer;
+.glass-btn {
+    display:inline-block;
+    margin-top:20px;
+    padding:15px 30px;
+    border-radius:50px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(20px);
+    color:white;
+    text-decoration:none;
+    transition:transform .2s ease;
 }
 
-ul{list-style:none;padding:0}
-li{
-  background:rgba(255,255,255,.1);
-  padding:12px;
-  margin-top:10px;
-  border-radius:10px;
+.glass-btn:active {
+    transform:scale(0.95);
 }
-h2{margin-top:30px}
+
+#app {
+    padding:30px;
+}
