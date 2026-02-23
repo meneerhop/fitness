@@ -2,8 +2,7 @@
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;background:#000;color:#fff;}
 .hero{background:url('https://moffel.fit/hero.jpg') center/cover no-repeat;height:100vh;display:flex;justify-content:center;align-items:center;}
 .hero-overlay{background:rgba(0,0,0,.6);backdrop-filter:blur(25px);padding:40px;border-radius:30px;text-align:center;}
-.glass-btn{display:inline-block;margin-top:20px;padding:15px 30px;border-radius:50px;background:rgba(255,255,255,.15);backdrop-filter:blur(20px);color:#fff;text-decoration:none;transition:.2s;}
-.glass-btn:active{transform:scale(.95);}
+.glass-btn{display:inline-block;margin-top:20px;padding:15px 30px;border-radius:50px;background:rgba(255,255,255,.15);backdrop-filter:blur(20px);color:#fff;text-decoration:none;}
 .container{padding:30px;padding-bottom:100px;}
 input{width:100%;padding:15px;margin:10px 0;border-radius:15px;border:none;background:#222;color:#fff;}
 button{width:100%;padding:15px;margin:10px 0;border-radius:15px;border:none;background:#fff;color:#000;font-weight:bold;}
