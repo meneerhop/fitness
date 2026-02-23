@@ -3,11 +3,12 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background
 .hero{background:url('https://moffel.fit/hero.jpg') center/cover no-repeat;height:100vh;display:flex;justify-content:center;align-items:center;}
 .hero-overlay{background:rgba(0,0,0,.7);backdrop-filter:blur(40px);padding:60px;border-radius:40px;text-align:center;}
 .glass-btn{display:inline-block;margin-top:20px;padding:15px 30px;border-radius:50px;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;}
-.app-shell{padding:30px;padding-bottom:100px;animation:fade .4s ease;}
-.navbar{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:rgba(10,10,15,.85);backdrop-filter:blur(30px);padding:15px 0;}
+.app-shell{padding:30px;padding-bottom:100px;}
+.navbar{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:rgba(10,10,15,.9);backdrop-filter:blur(30px);padding:15px 0;}
 .navbar button{background:none;border:none;color:#fff;opacity:.6;}
 .navbar button.active{opacity:1;transform:scale(1.1);}
-.card{background:rgba(255,255,255,.07);padding:20px;border-radius:25px;margin-bottom:15px;}
+.card{background:rgba(255,255,255,.08);padding:20px;border-radius:25px;margin-bottom:15px;}
 input{width:100%;padding:15px;margin:10px 0;border-radius:20px;border:none;background:#1c1c24;color:#fff;}
 button.primary{background:#fff;color:#000;padding:12px;border-radius:20px;border:none;}
-@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.calendar-day{background:#1c1c24;padding:10px;border-radius:10px;text-align:center;}
