@@ -1,11 +1,10 @@
-import { initAuth } from './auth.js';
+import { initAuth, login, register, logout } from './auth.js';
 import { state } from './state.js';
 import { navigate } from './router.js';
-
 import { renderAdmin } from './admin.js';
 import { renderAdminRole } from './admin-role-manager.js';
 
-const app = document.getElementById('app');
+const app = document.getElementById("app");
 
 window.renderApp = async function(){
 
@@ -19,28 +18,19 @@ window.renderApp = async function(){
   switch(state.route){
 
     case "auth":
-  content = `
-    <div class="app-shell">
-      <div class="auth-card">
-        <div class="auth-title">Welkom bij Moffel.fit</div>
-
-        <div class="segmented">
-          <button id="loginTab" class="active" onclick="switchAuth('login')">Inloggen</button>
-          <button id="registerTab" onclick="switchAuth('register')">Registreren</button>
-        </div>
-
-        <div id="authForm"></div>
-      </div>
-    </div>
-  `;
-  break;
+      content = renderAuth();
+      break;
 
     case "dashboard":
-      content = `<div class="app-shell">
-                   <div class="card">
-                     <h2>Dashboard</h2>
-                   </div>
-                 </div>`;
+      content = `
+        <div class="app-shell">
+          <div class="card">
+            <h2>Dashboard</h2>
+            <p>Welkom ${state.userData?.name || ""}</p>
+            <button onclick="logoutUser()">Uitloggen</button>
+          </div>
+        </div>
+      `;
       break;
 
     case "admin":
@@ -52,7 +42,7 @@ window.renderApp = async function(){
       break;
 
     default:
-      content = `<div class="app-shell"><div class="card">404</div></div>`;
+      content = renderAuth();
   }
 
   app.innerHTML = content + renderNav();
@@ -67,47 +57,27 @@ function renderNav(){
       <button onclick="nav('dashboard')">Home</button>
       <button onclick="nav('admin')">Admin</button>
       <button onclick="nav('adminRoles')">Roles</button>
+      <button onclick="logoutUser()">Uit</button>
     </div>
   `;
 }
 
-window.nav = (r)=>navigate(r);
+function renderAuth(){
+  return `
+    <div class="app-shell">
+      <div class="auth-card">
+        <div class="auth-title">Welkom bij Moffel.fit</div>
 
-initAuth();
+        <div class="segmented">
+          <button id="loginTab" class="active" onclick="switchAuth('login')">Inloggen</button>
+          <button id="registerTab" onclick="switchAuth('register')">Registreren</button>
+        </div>
 
-import { login, register } from './auth.js';
-
-window.showLogin = function(){
-  document.getElementById("authForm").innerHTML = `
-    <input id="loginEmail" placeholder="Email" />
-    <input id="loginPass" type="password" placeholder="Wachtwoord" />
-    <button onclick="doLogin()">Inloggen</button>
+        <div id="authForm"></div>
+      </div>
+    </div>
   `;
-};
-
-window.showRegister = function(){
-  document.getElementById("authForm").innerHTML = `
-    <input id="regName" placeholder="Naam" />
-    <input id="regEmail" placeholder="Email" />
-    <input id="regPass" type="password" placeholder="Wachtwoord" />
-    <button onclick="doRegister()">Registreren</button>
-  `;
-};
-
-window.doLogin = async function(){
-  const email = document.getElementById("loginEmail").value;
-  const pass = document.getElementById("loginPass").value;
-  await login(email, pass);
-};
-
-window.doRegister = async function(){
-  const name = document.getElementById("regName").value;
-  const email = document.getElementById("regEmail").value;
-  const pass = document.getElementById("regPass").value;
-  await register(name, email, pass);
-};
-
-import { login, register } from './auth.js';
+}
 
 window.switchAuth = function(type){
 
@@ -148,9 +118,10 @@ window.doRegister = async function(){
   await register(name, email, pass);
 };
 
-// Default load login
-setTimeout(()=> {
-  if(document.getElementById("authForm")){
-    switchAuth("login");
-  }
-}, 50);
+window.logoutUser = async function(){
+  await logout();
+};
+
+window.nav = (r)=>navigate(r);
+
+initAuth();
