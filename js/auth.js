@@ -1,54 +1,61 @@
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
 import { auth, db } from "./firebase.js";
-import { doc, getDoc, setDoc } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import { state } from "./state.js";
-import { navigate } from "./router.js";
 
 export function initAuth(){
 
-    onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async (user) => {
 
-        if(user){
-            state.user = user;
+    if(user){
+      state.user = user;
 
-            // Haal Firestore user data op
-            const snap = await getDoc(doc(db, "users", user.uid));
-            if(snap.exists()){
-                state.userData = snap.data();
-                state.role = snap.data().role || "user";
-            }
+      const snap = await getDoc(doc(db, "users", user.uid));
 
-            navigate("dashboard");
-        } 
-        else {
-            state.user = null;
-            state.userData = null;
-            state.role = null;
+      if(snap.exists()){
+        state.userData = snap.data();
+        state.role = snap.data().role || "user";
+      }
 
-            navigate("auth");   // ✅ dit is cruciaal
-        }
-    });
+      state.route = "dashboard";
+    } 
+    else {
+      state.user = null;
+      state.userData = null;
+      state.role = null;
+      state.route = "auth";
+    }
+
+    state.initialized = true;
+    window.renderApp();
+  });
 }
 
 export async function login(email, password){
-    await signInWithEmailAndPassword(auth, email, password);
+  await signInWithEmailAndPassword(auth, email, password);
 }
 
 export async function register(name, email, password){
+  const cred = await createUserWithEmailAndPassword(auth, email, password);
 
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-    await setDoc(doc(db, "users", cred.user.uid), {
-        name,
-        role: "user",
-        createdAt: new Date()
-    });
+  await setDoc(doc(db, "users", cred.user.uid), {
+    name,
+    role: "user",
+    createdAt: new Date()
+  });
 }
 
 export async function logout(){
-    await signOut(auth);
+  await signOut(auth);
 }
