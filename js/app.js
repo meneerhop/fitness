@@ -12,83 +12,112 @@ import { renderProfile } from './profile.js';
 
 const app = document.getElementById('app');
 
-window.renderApp = async function(){
+window.renderApp = async function () {
 
-  let content = "";
+  try {
 
-  if(!state.route) state.route = "dashboard";
+    let content = "";
 
-  switch(state.route){
+    if (!state.route) state.route = "dashboard";
 
-    case "dashboard":
-      content = dashboardView();
-      break;
+    switch (state.route) {
 
-    case "settings":
-      content = settingsView();
-      break;
+      case "dashboard":
+        content = dashboardView();
+        break;
 
-    case "calendar":
-      content = await renderCalendar();
-      break;
+      case "settings":
+        content = settingsView();
+        break;
 
-    case "progress":
-      content = await renderProgress();
-      break;
+      case "calendar":
+        content = await renderCalendar();
+        break;
 
-    case "admin":
-      content = await renderAdmin();
-      break;
+      case "progress":
+        content = await renderProgress();
+        break;
 
-    case "adminRoles":
-      content = await renderAdminRoleManager();
-      break;
+      case "admin":
+        content = await renderAdmin();
+        break;
 
-    case "trainer":
-      content = await renderTrainerDashboard();
-      break;
+      case "adminRoles":
+        content = await renderAdminRoleManager();
+        break;
 
-    case "profile":
-      content = await renderProfile();
-      break;
+      case "trainer":
+        content = await renderTrainerDashboard();
+        break;
 
-    case "auth":
-      content = `
-        <div class="app-shell">
-          <div class="card">
-            <h2>Login vereist</h2>
-            <button onclick="location.reload()">Terug</button>
+      case "profile":
+        content = await renderProfile();
+        break;
+
+      case "auth":
+        content = `
+          <div class="app-shell">
+            <div class="card">
+              <h2>Login vereist</h2>
+              <p>Je bent niet ingelogd.</p>
+            </div>
           </div>
-        </div>
-      `;
-      break;
+        `;
+        break;
 
-    default:
-      content = `
-        <div class="app-shell">
-          <div class="card">Pagina niet gevonden</div>
+      default:
+        content = `
+          <div class="app-shell">
+            <div class="card">
+              <h2>Pagina niet gevonden</h2>
+            </div>
+          </div>
+        `;
+    }
+
+    app.innerHTML = content + renderNav();
+
+  } catch (error) {
+
+    console.error("Render error:", error);
+
+    app.innerHTML = `
+      <div class="app-shell">
+        <div class="card">
+          <h2>Er ging iets mis</h2>
+          <p>Bekijk de console voor details.</p>
         </div>
-      `;
+      </div>
+    `;
   }
-
-  app.innerHTML = content + renderNav();
 };
 
-function renderNav(){
-  if(!state.user) return "";
+function renderNav() {
+
+  if (!state.user) return "";
 
   return `
-  <div class="navbar">
-    <button onclick="nav('dashboard')">Home</button>
-    <button onclick="nav('calendar')">Kalender</button>
-    <button onclick="nav('progress')">Progress</button>
-    ${state.role === "admin" ? `<button onclick="nav('admin')">Admin</button>` : ""}
-    ${state.role === "admin" ? `<button onclick="nav('adminRoles')">Rollen</button>` : ""}
-    ${state.role === "trainer" || state.role === "admin" ? `<button onclick="nav('trainer')">Trainer</button>` : ""}
-    <button onclick="nav('profile')">Profiel</button>
-  </div>`;
+    <div class="navbar">
+      <button class="${state.route === 'dashboard' ? 'active' : ''}" onclick="nav('dashboard')">Home</button>
+      <button class="${state.route === 'calendar' ? 'active' : ''}" onclick="nav('calendar')">Kalender</button>
+      <button class="${state.route === 'progress' ? 'active' : ''}" onclick="nav('progress')">Progress</button>
+
+      ${state.role === "admin" ? `
+        <button class="${state.route === 'admin' ? 'active' : ''}" onclick="nav('admin')">Admin</button>
+        <button class="${state.route === 'adminRoles' ? 'active' : ''}" onclick="nav('adminRoles')">Rollen</button>
+      ` : ""}
+
+      ${(state.role === "trainer" || state.role === "admin") ? `
+        <button class="${state.route === 'trainer' ? 'active' : ''}" onclick="nav('trainer')">Trainer</button>
+      ` : ""}
+
+      <button class="${state.route === 'profile' ? 'active' : ''}" onclick="nav('profile')">Profiel</button>
+    </div>
+  `;
 }
 
-window.nav = (r)=>navigate(r);
+window.nav = (route) => {
+  navigate(route);
+};
 
 initAuth();

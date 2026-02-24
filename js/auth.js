@@ -15,50 +15,126 @@ import {
   setDoc
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
+
+
+/* ===========================
+   INIT AUTH LISTENER
+=========================== */
+
 export function initAuth(){
 
   onAuthStateChanged(auth, async (user) => {
 
-    if(user){
+    try {
 
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      const data = snap.exists() ? snap.data() : null;
+      if(user){
 
-      state.user = user;
-      state.userData = data;
-      state.role = data?.role || 'user';
+        // 🔹 Haal Firestore profiel op
+        const userRef = doc(db, 'users', user.uid);
+        const snap = await getDoc(userRef);
 
-      navigate('dashboard');
+        let userData = null;
 
-    } else {
+        if(snap.exists()){
+          userData = snap.data();
+        } else {
+          // 🔥 Als user document ontbreekt → automatisch aanmaken
+          userData = {
+            name: user.email || "Gebruiker",
+            role: "user",
+            createdAt: new Date()
+          };
+
+          await setDoc(userRef, userData);
+        }
+
+        // 🔹 State correct zetten
+        state.user = user;
+        state.userData = userData;
+        state.role = userData.role || "user";
+
+        // 🔹 Alleen navigeren als nog niet op route
+        if(!state.route || state.route === "auth"){
+          navigate("dashboard");
+        }
+
+      } else {
+
+        state.user = null;
+        state.userData = null;
+        state.role = null;
+
+        navigate("auth");
+      }
+
+    } catch(error){
+
+      console.error("Auth init error:", error);
 
       state.user = null;
       state.role = null;
-
-      navigate('auth');
-
+      navigate("auth");
     }
 
   });
 
 }
 
+
+
+/* ===========================
+   LOGIN
+=========================== */
+
 export async function login(email, password){
-  await signInWithEmailAndPassword(auth, email, password);
+
+  try{
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch(error){
+    console.error("Login error:", error);
+    alert("Login mislukt: " + error.message);
+  }
+
 }
+
+
+
+/* ===========================
+   REGISTER
+=========================== */
 
 export async function register(name, email, password){
 
-  const cred = await createUserWithEmailAndPassword(auth, email, password);
+  try{
 
-  await setDoc(doc(db, 'users', cred.user.uid), {
-    name: name,
-    role: 'user',
-    createdAt: new Date()
-  });
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      name: name,
+      role: "user",
+      createdAt: new Date()
+    });
+
+  } catch(error){
+
+    console.error("Register error:", error);
+    alert("Registratie mislukt: " + error.message);
+  }
 
 }
 
+
+
+/* ===========================
+   LOGOUT
+=========================== */
+
 export async function logout(){
-  await signOut(auth);
+
+  try{
+    await signOut(auth);
+  } catch(error){
+    console.error("Logout error:", error);
+  }
+
 }

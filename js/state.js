@@ -1,4 +1,6 @@
-
 export const state = {
-route: "dashboard"
+  route: "dashboard",
+  user: null,
+  userData: null,
+  role: null
 };

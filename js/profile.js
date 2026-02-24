@@ -1,11 +1,9 @@
-
 import { db } from './firebase.js';
 import { state } from './state.js';
 
 import {
   doc,
-  updateDoc,
-  getDoc
+  updateDoc
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 import {
@@ -15,7 +13,6 @@ import {
   getDownloadURL
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 
 export async function renderProfile(){
@@ -26,9 +23,9 @@ export async function renderProfile(){
     <div class='app-shell'>
       <div class='card'>
         <h2>Profiel</h2>
-        <img id="profileImage" src="${state.user.photoURL || ''}" 
+        <img id="profileImage" src="${state.userData?.photoURL || ''}" 
              style="width:120px;height:120px;border-radius:50%;object-fit:cover;background:#222;margin-bottom:15px;" />
-        <input id="nameInput" value="${state.user.name || ''}" placeholder="Naam" />
+        <input id="nameInput" value="${state.userData?.name || ''}" placeholder="Naam" />
         <input type="file" id="photoInput" />
         <button onclick="saveProfile()">Opslaan</button>
       </div>
@@ -44,7 +41,7 @@ window.saveProfile = async function(){
   const fileInput = document.getElementById("photoInput");
   const file = fileInput.files[0];
 
-  let photoURL = state.user.photoURL || null;
+  let photoURL = state.userData?.photoURL || null;
 
   if(file){
     const app = getApp();

@@ -61,7 +61,8 @@ async function loadProgress(){
 
   snap.forEach(doc=>{
     const d = doc.data();
-    labels.push(new Date(d.createdAt.seconds * 1000).toLocaleDateString());
+    const date = d.createdAt?.toDate ? d.createdAt.toDate() : new Date(d.createdAt);
+    labels.push(date.toLocaleDateString());
     data.push(d.weight);
   });
 

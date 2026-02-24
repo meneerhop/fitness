@@ -24,15 +24,14 @@ export async function renderCalendar(){
   html += "<div class='calendar'>";
 
   for(let d=1; d<=daysInMonth; d++){
-    html += `<div class='day' onclick="addEventPrompt(${d})">${d}</div>`;
+    html += `<div class='day' onclick="addEventPrompt(${d}, ${month}, ${year})">${d}</div>`;
   }
 
   html += "</div></div>";
-
   html += "<div class='card'><h3>Events deze maand</h3><div id='eventList'></div></div>";
   html += "</div>";
 
-  loadEvents(month, year);
+  setTimeout(()=>loadEvents(month, year), 100);
 
   return html;
 }
@@ -57,21 +56,18 @@ async function loadEvents(month, year){
     const e = doc.data();
     list.innerHTML += `<div class='card'>${e.day}: ${e.title}</div>`;
   });
-
 }
 
-window.addEventPrompt = async function(day){
+window.addEventPrompt = async function(day, month, year){
 
   const title = prompt("Event titel?");
   if(!title) return;
 
-  const now = new Date();
-
   await addDoc(collection(db, "events"), {
     uid: state.user.uid,
     day: day,
-    month: now.getMonth(),
-    year: now.getFullYear(),
+    month: month,
+    year: year,
     title: title,
     createdAt: new Date()
   });
