@@ -1,36 +1,29 @@
-import { auth, db } from "./firebase.js";
+import { auth, db } from './firebase.js';
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
-import {
-  doc,
-  getDoc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, getDoc, setDoc }
+from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-import { state } from "./state.js";
+import { state } from './state.js';
 
 export function initAuth(){
 
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async (user)=>{
 
     if(user){
       state.user = user;
 
-      const snap = await getDoc(doc(db, "users", user.uid));
-
-      if(snap.exists()){
-        state.userData = snap.data();
-        state.role = snap.data().role || "user";
-      }
+      const snap = await getDoc(doc(db,"users",user.uid));
+      state.userData = snap.exists() ? snap.data() : null;
+      state.role = state.userData?.role || "user";
 
       state.route = "dashboard";
-    } 
-    else {
+    } else {
       state.user = null;
       state.userData = null;
       state.role = null;
@@ -42,17 +35,17 @@ export function initAuth(){
   });
 }
 
-export async function login(email, password){
-  await signInWithEmailAndPassword(auth, email, password);
+export async function login(email,password){
+  await signInWithEmailAndPassword(auth,email,password);
 }
 
-export async function register(name, email, password){
-  const cred = await createUserWithEmailAndPassword(auth, email, password);
+export async function register(name,email,password){
+  const cred = await createUserWithEmailAndPassword(auth,email,password);
 
-  await setDoc(doc(db, "users", cred.user.uid), {
+  await setDoc(doc(db,"users",cred.user.uid),{
     name,
-    role: "user",
-    createdAt: new Date()
+    role:"user",
+    createdAt:new Date()
   });
 }
 
