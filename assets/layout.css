@@ -1,24 +1,108 @@
 @import url('animations.css');
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#05060d;color:#fff}
-.hero{min-height:100vh;background:url('https://moffel.fit/hero.jpg') center/cover no-repeat;display:flex;align-items:center;justify-content:center}
-.hero-card{background:rgba(20,20,35,.85);padding:50px;border-radius:28px;text-align:center}
-.btn-primary{padding:14px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:600}
-.app-shell{max-width:520px;margin:auto;padding:20px;padding-bottom:120px}
-.card{background:rgba(20,20,35,.9);border-radius:24px;padding:20px;margin-bottom:20px}
-.navbar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:520px;display:flex;justify-content:space-around;background:rgba(20,20,35,.9);padding:14px;border-radius:28px}
-.navbar button{background:none;border:none;color:#fff;opacity:.6}
-.navbar button.active{opacity:1;font-weight:600}
-/* ---------- iOS Auth ---------- */
+
+/* ---------- Global ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #05060d;
+  color: #fff;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  min-height: 100vh;
+  background: url('https://moffel.fit/hero.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-card {
+  background: rgba(20,20,35,.85);
+  padding: 50px;
+  border-radius: 28px;
+  text-align: center;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary {
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: none;
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+}
+
+/* ---------- App Shell ---------- */
+
+.app-shell {
+  max-width: 520px;
+  margin: auto;
+  padding: 20px;
+  padding-bottom: 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background: rgba(20,20,35,.9);
+  border-radius: 24px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 520px;
+  display: flex;
+  justify-content: space-around;
+  background: rgba(20,20,35,.9);
+  padding: 14px;
+  border-radius: 28px;
+  backdrop-filter: blur(20px);
+}
+
+.navbar button {
+  background: none;
+  border: none;
+  color: #fff;
+  opacity: .6;
+  cursor: pointer;
+}
+
+.navbar button.active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* ===================================================== */
+/* =================== iOS AUTH ========================= */
+/* ===================================================== */
 
 .auth-card {
-  width: 380px;
+  width: 100%;
+  max-width: 420px;
   padding: 40px;
   border-radius: 28px;
   backdrop-filter: blur(20px);
   background: linear-gradient(
     145deg,
-    rgba(25,25,40,0.9),
-    rgba(15,15,25,0.95)
+    rgba(25,25,40,0.95),
+    rgba(15,15,25,0.98)
   );
   box-shadow:
     0 20px 60px rgba(0,0,0,0.6),
@@ -26,47 +110,57 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background
   animation: springIn 0.7s cubic-bezier(.34,1.56,.64,1);
 }
 
+/* Title */
+
 .auth-title {
   font-size: 26px;
   font-weight: 600;
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
+/* Segmented Toggle */
+
 .segmented {
+  width: 100%;
   display: flex;
   background: rgba(255,255,255,0.05);
-  border-radius: 20px;
-  padding: 4px;
-  margin-bottom: 25px;
+  border-radius: 22px;
+  padding: 5px;
+  margin-bottom: 28px;
 }
 
 .segmented button {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: none;
   background: transparent;
   color: #aaa;
-  border-radius: 16px;
+  border-radius: 18px;
   cursor: pointer;
   transition: all 0.25s ease;
+  font-weight: 500;
 }
 
 .segmented .active {
   background: white;
   color: black;
-  box-shadow: 0 5px 20px rgba(255,255,255,0.2);
+  box-shadow: 0 6px 20px rgba(255,255,255,0.25);
 }
+
+/* Inputs */
 
 .auth-input {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 15px;
-  border-radius: 14px;
+  display: block;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 18px;
   border: none;
   background: rgba(255,255,255,0.05);
   color: white;
+  font-size: 15px;
   outline: none;
-  transition: 0.2s;
+  transition: 0.2s ease;
 }
 
 .auth-input:focus {
@@ -74,21 +168,28 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background
   box-shadow: 0 0 0 2px rgba(0,122,255,0.4);
 }
 
+/* Button */
+
 .auth-button {
   width: 100%;
-  padding: 14px;
-  border-radius: 18px;
+  display: block;
+  padding: 18px;
+  border-radius: 22px;
   border: none;
   font-weight: 600;
+  font-size: 15px;
   background: white;
   color: black;
   cursor: pointer;
   transition: all 0.25s ease;
+  margin-top: 8px;
 }
 
 .auth-button:hover {
   transform: translateY(-2px);
 }
+
+/* ---------- Animation ---------- */
 
 @keyframes springIn {
   0% { transform: scale(0.85); opacity: 0; }
