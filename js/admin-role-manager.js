@@ -1,63 +1,42 @@
+import { db } from "./firebase.js";
+import { collection, getDocs, doc, updateDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-import { db } from './firebase.js';
-import { state } from './state.js';
+export async function adminRoleView(){
 
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc
-} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  const snapshot = await getDocs(collection(db, "users"));
 
-export async function renderAdminRoleManager(){
+  let html = `
+    <div class="card">
+      <h2>Role Manager</h2>
+      <div class="user-list">
+  `;
 
-  if(!state.user) return "<div class='app-shell'><div class='card'>Niet ingelogd</div></div>";
+  snapshot.forEach(userDoc => {
 
-  if(state.role !== "admin"){
-    return "<div class='app-shell'><div class='card'>Geen toegang</div></div>";
-  }
+    const data = userDoc.data();
+    const role = data.role || "user";
 
-  let html = "<div class='app-shell'>";
-  html += "<div class='card'><h2>Admin – Rollen Beheer</h2><div id='roleUserList'></div></div>";
-  html += "</div>";
-
-  setTimeout(loadUsers, 100);
-
-  return html;
-}
-
-async function loadUsers(){
-
-  const snap = await getDocs(collection(db, "users"));
-  const container = document.getElementById("roleUserList");
-  if(!container) return;
-
-  container.innerHTML = "";
-
-  snap.forEach(docSnap=>{
-    const data = docSnap.data();
-    container.innerHTML += `
-      <div class='card'>
-        <strong>${data.name || "Geen naam"}</strong><br/>
-        UID: ${docSnap.id}<br/>
-        Huidige rol: ${data.role || "user"}<br/>
-        <select onchange="changeRole('${docSnap.id}', this.value)">
-          <option value="user" ${data.role==="user"?"selected":""}>User</option>
-          <option value="trainer" ${data.role==="trainer"?"selected":""}>Trainer</option>
-          <option value="admin" ${data.role==="admin"?"selected":""}>Admin</option>
+    html += `
+      <div class="user-row">
+        <span>${data.name || "No name"}</span>
+        <select onchange="changeRole('${userDoc.id}', this.value)">
+          <option value="user" ${role==="user"?"selected":""}>User</option>
+          <option value="admin" ${role==="admin"?"selected":""}>Admin</option>
         </select>
       </div>
     `;
   });
+
+  html += `
+      </div>
+    </div>
+  `;
+
+  return html;
 }
 
-window.changeRole = async function(uid, newRole){
-
-  if(!confirm("Weet je zeker dat je de rol wilt wijzigen?")) return;
-
-  await updateDoc(doc(db, "users", uid), {
-    role: newRole
-  });
-
-  alert("Rol bijgewerkt");
+window.changeRole = async function(uid, role){
+  await updateDoc(doc(db, "users", uid), { role });
+  alert("Role updated");
 };
