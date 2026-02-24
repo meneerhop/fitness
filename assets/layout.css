@@ -17,7 +17,7 @@ body {
 
 .hero {
   min-height: 100vh;
-  background: url('https://moffel.fit/hero.jpg') center/cover no-repeat;
+  background: url('https://moffel.fit/hero.gif') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +28,26 @@ body {
   padding: 50px;
   border-radius: 28px;
   text-align: center;
+}
+
+/* ---------- Hero Logo ---------- */
+
+.hero-logo {
+  width: 160px;
+  max-width: 60%;
+  margin-bottom: 28px;
+  filter: drop-shadow(0 10px 30px rgba(255,255,255,0.15));
+}
+
+.hero-start {
+  padding: 16px 34px;
+  border-radius: 999px;
+  font-size: 16px;
+  transition: all 0.25s ease;
+}
+
+.hero-start:hover {
+  transform: translateY(-3px);
 }
 
 /* ---------- Buttons ---------- */
