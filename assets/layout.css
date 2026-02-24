@@ -17,7 +17,7 @@ body {
 
 .hero {
   min-height: 100vh;
-  background: url('https://moffel.fit/hero.gif') center/cover no-repeat;
+  background: url('https://moffel.fit/hero.jpg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
