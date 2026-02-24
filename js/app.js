@@ -1,4 +1,6 @@
 
+import { trainerView } from './trainer-dashboard.js';
+import { profileView } from './profile.js';
 import { initAuth } from './auth.js';
 import { state } from './state.js';
 import { navigate } from './router.js';
@@ -10,7 +12,7 @@ import { adminRoleView } from './views.js';
 
 const app = document.getElementById('app');
 
-window.renderApp = function(){
+window.renderApp = async function(){
 let content = "";
 
 if(state.route === "dashboard") content = dashboardView();
