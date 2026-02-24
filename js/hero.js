@@ -1,3 +1,3 @@
 function goToAuth(){
-  window.location.href = "app.html";
+  window.location.href = "/app.html";
 }
