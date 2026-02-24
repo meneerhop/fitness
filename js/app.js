@@ -21,16 +21,15 @@ window.renderApp = async function(){
     case "auth":
   content = `
     <div class="app-shell">
-      <div class="card">
-        <h2>Welkom bij Moffel.fit</h2>
+      <div class="auth-card">
+        <div class="auth-title">Welkom bij Moffel.fit</div>
 
-        <div id="authButtons">
-          <button onclick="showLogin()">Inloggen</button>
-          <button onclick="showRegister()">Registreren</button>
+        <div class="segmented">
+          <button id="loginTab" class="active" onclick="switchAuth('login')">Inloggen</button>
+          <button id="registerTab" onclick="switchAuth('register')">Registreren</button>
         </div>
 
         <div id="authForm"></div>
-
       </div>
     </div>
   `;
@@ -107,3 +106,51 @@ window.doRegister = async function(){
   const pass = document.getElementById("regPass").value;
   await register(name, email, pass);
 };
+
+import { login, register } from './auth.js';
+
+window.switchAuth = function(type){
+
+  document.getElementById("loginTab").classList.remove("active");
+  document.getElementById("registerTab").classList.remove("active");
+
+  if(type === "login"){
+    document.getElementById("loginTab").classList.add("active");
+
+    document.getElementById("authForm").innerHTML = `
+      <input class="auth-input" id="loginEmail" placeholder="Email">
+      <input class="auth-input" id="loginPass" type="password" placeholder="Wachtwoord">
+      <button class="auth-button" onclick="doLogin()">Inloggen</button>
+    `;
+  } else {
+
+    document.getElementById("registerTab").classList.add("active");
+
+    document.getElementById("authForm").innerHTML = `
+      <input class="auth-input" id="regName" placeholder="Naam">
+      <input class="auth-input" id="regEmail" placeholder="Email">
+      <input class="auth-input" id="regPass" type="password" placeholder="Wachtwoord">
+      <button class="auth-button" onclick="doRegister()">Registreren</button>
+    `;
+  }
+};
+
+window.doLogin = async function(){
+  const email = document.getElementById("loginEmail").value;
+  const pass = document.getElementById("loginPass").value;
+  await login(email, pass);
+};
+
+window.doRegister = async function(){
+  const name = document.getElementById("regName").value;
+  const email = document.getElementById("regEmail").value;
+  const pass = document.getElementById("regPass").value;
+  await register(name, email, pass);
+};
+
+// Default load login
+setTimeout(()=> {
+  if(document.getElementById("authForm")){
+    switchAuth("login");
+  }
+}, 50);
