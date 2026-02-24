@@ -24,7 +24,8 @@ export function initAuth(){
       const snap = await getDoc(doc(db, 'users', user.uid));
       const data = snap.exists() ? snap.data() : null;
 
-      state.user = data;
+      state.user = user;
+      state.userData = data;
       state.role = data?.role || 'user';
 
       navigate('dashboard');
